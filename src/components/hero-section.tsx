@@ -1,9 +1,10 @@
+"use client";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export function HeroSection() {
-  const audioRef = useRef(null);
-  const containerRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -12,7 +13,9 @@ export function HeroSection() {
 
   const handleMouseEnter = () => {
     if (audioRef.current) {
-      audioRef.current.play();
+      audioRef.current.play().catch((error: any) => {
+        console.error("Audio playback failed:", error);
+      });
     }
   };
 
