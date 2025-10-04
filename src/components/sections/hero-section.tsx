@@ -43,7 +43,7 @@ export function HeroSection() {
           autoPlay
           muted
           loop
-          className="object-cover"
+          className=""
         />
 
         {/* Animated text on the left with typewriter effect and vertical stacking */}

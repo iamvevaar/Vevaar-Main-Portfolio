@@ -1,7 +1,26 @@
 import { Timeline } from "../ui/timeline";
+import { ImageCarousel } from "../ui/image-carousel";
 
 export function TimelineSection() {
-       const data = [
+  const images = [
+    {
+      src: "https://assets.aceternity.com/templates/startup-1.webp",
+      alt: "startup template",
+    },
+    {
+      src: "https://assets.aceternity.com/templates/startup-2.webp",
+      alt: "startup template",
+    },
+    {
+      src: "https://assets.aceternity.com/templates/startup-3.webp",
+      alt: "startup template",
+    },
+    {
+      src: "https://assets.aceternity.com/templates/startup-4.webp",
+      alt: "startup template",
+    },
+  ];
+  const data = [
     {
       title: "June 2024 ~ Present",
       content: (
@@ -9,7 +28,10 @@ export function TimelineSection() {
           <p className="mb-8 text-xs font-normal text-neutral-800 md:text-sm dark:text-neutral-200">
             Built and launched Aceternity UI and Aceternity UI Pro from scratch
           </p>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="md:hidden">
+            <ImageCarousel images={images} />
+          </div>
+          <div className="hidden md:grid grid-cols-2 gap-4">
             <img
               src="https://assets.aceternity.com/templates/startup-1.webp"
               alt="startup template"
@@ -54,7 +76,10 @@ export function TimelineSection() {
             Lorem ipsum is for people who are too lazy to write copy. But we are
             not. Here are some more example of beautiful designs I built.
           </p>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="md:hidden">
+            <ImageCarousel images={images} />
+          </div>
+          <div className="hidden md:grid grid-cols-2 gap-4">
             <img
               src="https://assets.aceternity.com/pro/hero-sections.png"
               alt="hero template"
@@ -111,7 +136,10 @@ export function TimelineSection() {
               ✅ Salman Bhai Fan Club registrations open
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="md:hidden">
+            <ImageCarousel images={images} />
+          </div>
+          <div className="hidden md:grid grid-cols-2 gap-4">
             <img
               src="https://assets.aceternity.com/pro/hero-sections.png"
               alt="hero template"
@@ -145,7 +173,5 @@ export function TimelineSection() {
       ),
     },
   ];
-    return (
-        <Timeline data={data} />
-    )
+  return <Timeline data={data} />;
 }
