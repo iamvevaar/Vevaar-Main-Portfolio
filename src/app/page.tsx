@@ -1,4 +1,3 @@
-"use client";
 import { HeroSection } from "@/components/sections/hero-section";
 import JoinList from "@/components/sections/JoinList";
 import { ProjectSection } from "@/components/sections/project-setcion";
