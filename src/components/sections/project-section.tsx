@@ -3,20 +3,23 @@ import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 export function ProjectSection() {
   return (
     <div className="h-auto py-16 sm:py-20 flex flex-col justify-center items-center px-4 tracking-tight">
-      <h2 className="font-outfit mb-10 sm:mb-16 text-xl text-center sm:text-5xl dark:text-white text-black">
-        <span className="">The best way to grow is to </span>
+      <div className="flex items-center justify-center flex-col">
 
-        <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
+      <h2 className="font-outfit mb-10 sm:mb-16 text-xl sm:text-5xl dark:text-white text-black flex flex-col items-center justify-center">
+        <span>The best way to grow is to </span>
+
+        <div className="relative flex justify-center bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
           <PointerHighlight
             rectangleClassName="bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600"
             pointerClassName="text-yellow-500"
           >
-            <h2 className=" text-5xl relative z-10 bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 ">
+            <h2 className="text-5xl relative z-10 bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500">
               build in public{" "}
             </h2>
           </PointerHighlight>
         </div>
       </h2>
+            </div>
 
       <CardContainer className="inter-var">
         <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">

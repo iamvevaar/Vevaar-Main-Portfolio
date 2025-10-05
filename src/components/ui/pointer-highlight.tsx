@@ -43,7 +43,7 @@ export function PointerHighlight({
 
   return (
     <div
-      className={cn("relative w-full", containerClassName)}
+      className={cn("relative w-fit", containerClassName)}
       ref={containerRef}
     >
       {children}
