@@ -50,7 +50,15 @@ export function HeroSection() {
           <TextGenerateEffect words="iamvevaar" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
           </div>
           <TextGenerateEffect words="Creative Software Engineer" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
-          <TextGenerateEffect words="Let's Create Something Amazing" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
+          <div className="flex flex-col items-center">
+            <TextGenerateEffect words="Let's Create Something Amazing" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
+            <img
+            src="/Scroll down hint.gif"
+            alt="Scroll down"
+            className="h-16 w-16"
+          />
+          </div>
+
         </div>
 
         {/* Interactive audio circle */}
@@ -62,6 +70,8 @@ export function HeroSection() {
 
         {/* Hidden audio element */}
         <audio ref={audioRef} src="/a.mp3" preload="auto" />
+
+      
       </div>
     </div>
   );
