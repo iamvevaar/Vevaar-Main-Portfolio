@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
+import { TextHoverEffect } from "../ui/text-hover-effect";
 
 export function HeroSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -59,6 +60,9 @@ export function HeroSection() {
           />
           </div>
 
+        </div>
+        <div className="absolute bottom-24 text-center md:right-1 md:top-1/2 md:-translate-y-1/2 z-10">
+          <TextHoverEffect text="vevaar" />
         </div>
 
         {/* Interactive audio circle */}
