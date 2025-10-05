@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { TextHoverEffect } from "../ui/text-hover-effect";
+import { FollowerPointerCard } from "../ui/following-pointer";
 
 export function HeroSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -80,14 +81,17 @@ export function HeroSection() {
         </div>
 
         {/* Interactive audio circle */}
-        <div
-          className="absolute bottom-48 left-1/2 transform -translate-x-1/2 flex flex-col justify-center items-center text-center h-44 w-44 rounded-full cursor-pointer"
+        <FollowerPointerCard
+          title="Play Music"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-        />
+          className="absolute bottom-48 left-1/2 transform -translate-x-1/2 flex flex-col justify-center items-center text-center h-44 w-44 rounded-full cursor-pointer"
+        >
+          <div />
+        </FollowerPointerCard>
 
         {/* Hidden audio element */}
-        <audio ref={audioRef} src="/a.mp3" preload="auto" />
+        <audio ref={audioRef} src="/intestellar.mp3" preload="auto" loop />
       </div>
     </div>
   );
