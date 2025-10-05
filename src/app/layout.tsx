@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Dock } from "@/components/dock";
 import { Footer } from "@/components/sections/footer";
+import { Analytics } from '@vercel/analytics/next';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+         <Analytics />
         <div className="fixed bottom-10 left-0 right-0 flex justify-center">
           <Dock />
         </div>
