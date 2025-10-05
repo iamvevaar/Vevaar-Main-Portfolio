@@ -4,6 +4,7 @@ import "./globals.css";
 import { Dock } from "@/components/dock";
 import { Footer } from "@/components/sections/footer";
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
       >
         {children}
          <Analytics />
+        <SpeedInsights />
         <div className="fixed bottom-10 left-0 right-0 flex justify-center">
           <Dock />
         </div>
