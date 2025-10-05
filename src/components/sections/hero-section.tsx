@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { TextHoverEffect } from "../ui/text-hover-effect";
@@ -7,6 +7,15 @@ import { TextHoverEffect } from "../ui/text-hover-effect";
 export function HeroSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [showScrollHint, setShowScrollHint] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowScrollHint(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleMouseEnter = () => {
     if (audioRef.current) {
@@ -54,11 +63,16 @@ export function HeroSection() {
               words="Creative Software Engineer"
               className="text-3xl font-bold text-white whitespace-nowrap font-mono"
             />
-            <img
-              src="/Scroll down hint.gif"
-              alt="Scroll down"
-              className="h-16 w-16 mt-8"
-            />
+            {showScrollHint && (
+              <motion.img
+                src="/Scroll down hint.gif"
+                alt="Scroll down"
+                className="h-16 w-16 mt-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              />
+            )}
           </div>
         </div>
         <div className="absolute top-2 md:bottom-24 text-center md:right-1 md:top-1/2 md:-translate-y-1/2 z-10">
