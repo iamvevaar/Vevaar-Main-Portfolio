@@ -28,7 +28,7 @@ export function HeroSection() {
 
   // Text content that changes on scroll
   const texts = [
-    "Hello Saab",
+    "Hello Saab" ,
     "iamvevaar",
     "Creative Software Engineer",
     "Let's Create Something Amazing"
@@ -91,21 +91,30 @@ export function HeroSection() {
                 style={{ opacity, y: yPosition }}
                 className="absolute"
               >
-                <h1 className="text-3xl font-bold text-white whitespace-nowrap font-mono flex">
-                  {text.split('').map((char, charIndex) => {
+                <h1 className="text-3xl font-bold text-white whitespace-nowrap font-mono flex items-center">
+                  {index === 0 && (
+                    <motion.img
+                      src="https://raw.githubusercontent.com/nixin72/nixin72/master/wave.gif"
+                      alt="Waving hand"
+                      className="h-10 w-10 mr-2 inline-block"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                    />
+                  )}
+                  {text.split("").map((char, charIndex) => {
                     const charOpacity = useTransform(
                       charCount,
                       [charIndex - 1, charIndex],
                       [0, 1]
                     );
-
                     return (
                       <motion.span
                         key={charIndex}
                         style={{ opacity: charOpacity }}
                         className="inline-block"
                       >
-                        {char === ' ' ? '\u00A0' : char}
+                        {char === " " ? "\u00A0" : char}
                       </motion.span>
                     );
                   })}

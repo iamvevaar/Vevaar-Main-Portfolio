@@ -6,7 +6,15 @@ export function TechStackSection() {
   const secondRowIcons = icons.slice(middleIndex);
 
   return (
+    
     <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
+       <h2 className="font-outfit mb-10 sm:mb-16 text-xl text-center sm:text-5xl dark:text-white text-black">
+        <span className="">These are the tools I build with.</span>
+
+        <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
+          <span className="">Crafted with precision, powered by innovation.</span>
+        </div>
+      </h2>
       <InfiniteMovingCards
         items={firstRowIcons}
         direction="right"
