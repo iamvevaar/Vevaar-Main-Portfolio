@@ -36,19 +36,19 @@ export function HeroSection() {
         />
 
         {/* Animated text on the left with typewriter effect and vertical stacking */}
-        <div className="absolute left-4 top-2 text-center md:left-12 md:top-1/2 md:-translate-y-1/2 z-10">
+        <div className="absolute bottom-16 text-center md:left-12 md:top-1/2 md:-translate-y-1/2 z-10">
           <div className="flex items-center justify-center">
             <TextGenerateEffect words="Hello Saab" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
             <motion.img
               src="https://raw.githubusercontent.com/nixin72/nixin72/master/wave.gif"
               alt="Waving hand"
-              className="h-10 w-10 mr-2 inline-block"
+              className="h-10 w-10 mr-1 mt-[9px] inline-block"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             />
-          </div>
           <TextGenerateEffect words="iamvevaar" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
+          </div>
           <TextGenerateEffect words="Creative Software Engineer" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
           <TextGenerateEffect words="Let's Create Something Amazing" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
         </div>
