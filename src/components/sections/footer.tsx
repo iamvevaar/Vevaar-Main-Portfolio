@@ -7,8 +7,8 @@ import {
   IconBrandWhatsapp,
   IconBrandYoutube,
 } from "@tabler/icons-react";
-import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { Mail } from "lucide-react";
+import { TextGenerateEffectWithObserver } from "../ui/text-generate-effect-with-observer";
 
 export function Footer() {
   const about =
@@ -40,7 +40,7 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-4">About Me</h3>
             <div className="text-sm text-gray-400">
-              <TextGenerateEffect words={about} />
+              <TextGenerateEffectWithObserver words={about} />
             </div>
           </div>
 
