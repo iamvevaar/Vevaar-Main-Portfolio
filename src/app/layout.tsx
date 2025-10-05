@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Vevaar | वेवार ",
   description: "Half-dev , half-vibe. Writes clean code on a clean desk.Living proof you can debug and chill.",
+  openGraph: {
+    images: "/og-image.png",
+  },
 };
 
 export default function RootLayout({
