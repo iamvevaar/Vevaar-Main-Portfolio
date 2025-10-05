@@ -39,10 +39,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
     >
       <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
          <h2 className="font-outfit mb-10 sm:mb-16 text-xl text-center sm:text-5xl dark:text-white text-black">
-        <span className="">Let's Connect Drop your details</span>
+        <span className="">From ideas to impact</span>
 
         <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
-          <span className="">We'd love to hear from you!</span>
+          <span className="">a timeline of building, learning, and evolving.</span>
         </div>
       </h2>
       </div>

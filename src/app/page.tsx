@@ -1,3 +1,4 @@
+import { Footer } from "@/components/sections/footer";
 import { HeroSection } from "@/components/sections/hero-section";
 import JoinList from "@/components/sections/JoinList";
 import { ProjectSection } from "@/components/sections/project-section";
@@ -12,7 +13,7 @@ export default function Home() {
       <TimelineSection/>
       <ProjectSection/>
       <TechStackSection/>
-      <JoinList />      
+      <JoinList />  
     </main>
   );
 }
