@@ -10,6 +10,8 @@ export function HeroSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [showScrollHint, setShowScrollHint] = useState(false);
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
+  const [pendingPlay, setPendingPlay] = useState(false);
   const audioFileName = getAudioFileName();
 
   useEffect(() => {
@@ -20,15 +22,55 @@ export function HeroSection() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleMouseEnter = () => {
-    if (audioRef.current) {
-      audioRef.current.play().catch((error: any) => {
-        console.error("Audio playback failed:", error);
+  // Silently unlock audio on ANY user interaction
+  useEffect(() => {
+    const unlockAudio = async () => {
+      if (!audioUnlocked && audioRef.current) {
+        try {
+          // Attempt to play and immediately pause to unlock
+          await audioRef.current.play();
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+          setAudioUnlocked(true);
+          
+          // If user was already hovering, play now
+          if (pendingPlay) {
+            audioRef.current.play().catch(console.error);
+          }
+        } catch (error) {
+          // Still locked, will retry on next interaction
+        }
+      }
+    };
+
+    // Listen for ANY interaction to unlock audio
+    const events = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
+    
+    events.forEach(event => {
+      document.addEventListener(event, unlockAudio, { once: true, passive: true });
+    });
+
+    return () => {
+      events.forEach(event => {
+        document.removeEventListener(event, unlockAudio);
       });
+    };
+  }, [audioUnlocked, pendingPlay]);
+
+  const handleMouseEnter = () => {
+    setPendingPlay(true);
+    if (audioRef.current) {
+      if (audioUnlocked) {
+        audioRef.current.play().catch((error: any) => {
+          console.error("Audio playback failed:", error);
+        });
+      }
+      // If not unlocked yet, audio will play automatically once unlocked (via pendingPlay)
     }
   };
 
   const handleMouseLeave = () => {
+    setPendingPlay(false);
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -37,11 +79,9 @@ export function HeroSection() {
 
   return (
     <div ref={containerRef} className="relative h-screen bg-black w-full">
-      {/* Sticky container for video */}
       <div className="sticky top-0 h-screen w-full flex justify-center overflow-hidden">
         <video src="/Hero.mp4" autoPlay muted loop className="" />
 
-        {/* Animated text on the left with typewriter effect and vertical stacking */}
         <div className="absolute bottom-6 text-center md:left-12 md:top-1/2 md:-translate-y-1/2 z-10">
           <div className="flex md:mt-16 items-center justify-center">
             <TextGenerateEffect
@@ -82,9 +122,12 @@ export function HeroSection() {
           <TextHoverEffect text="vevaar" />
         </div>
 
-        {/* Interactive audio circle */}
         <FollowerPointerCard
-          title={`Listening to ${audioFileName}`}
+          title={
+            audioUnlocked
+              ? `Listening to ${audioFileName}`
+              : "Click to listen"
+          }
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className="absolute bottom-48 left-1/2 transform -translate-x-1/2 flex flex-col justify-center items-center text-center h-44 w-44 rounded-full cursor-pointer"
@@ -92,7 +135,6 @@ export function HeroSection() {
           <div />
         </FollowerPointerCard>
 
-        {/* Hidden audio element */}
         <audio ref={audioRef} src={`/${audioFileName}`} preload="auto" loop />
       </div>
     </div>
