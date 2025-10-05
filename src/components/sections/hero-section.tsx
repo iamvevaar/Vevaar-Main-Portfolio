@@ -8,7 +8,6 @@ export function HeroSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-
   const handleMouseEnter = () => {
     if (audioRef.current) {
       audioRef.current.play().catch((error: any) => {
@@ -28,18 +27,15 @@ export function HeroSection() {
     <div ref={containerRef} className="relative h-screen bg-black w-full">
       {/* Sticky container for video */}
       <div className="sticky top-0 h-screen w-full flex justify-center overflow-hidden">
-        <video
-          src="/Hero.mp4"
-          autoPlay
-          muted
-          loop
-          className=""
-        />
+        <video src="/Hero.mp4" autoPlay muted loop className="" />
 
         {/* Animated text on the left with typewriter effect and vertical stacking */}
-        <div className="absolute bottom-16 text-center md:left-12 md:top-1/2 md:-translate-y-1/2 z-10">
-          <div className="flex items-center justify-center">
-            <TextGenerateEffect words="Hello Saab" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
+        <div className="absolute bottom-6 text-center md:left-12 md:top-1/2 md:-translate-y-1/2 z-10">
+          <div className="flex md:mt-16 items-center justify-center">
+            <TextGenerateEffect
+              words="Hello Saab"
+              className="text-3xl font-bold text-white whitespace-nowrap font-mono"
+            />
             <motion.img
               src="https://raw.githubusercontent.com/nixin72/nixin72/master/wave.gif"
               alt="Waving hand"
@@ -48,20 +44,24 @@ export function HeroSection() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             />
-          <TextGenerateEffect words="iamvevaar" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
+            <TextGenerateEffect
+              words="iamvevaar"
+              className="text-3xl font-bold text-white whitespace-nowrap font-mono"
+            />
           </div>
-          <TextGenerateEffect words="Creative Software Engineer" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
           <div className="flex flex-col items-center">
-            <TextGenerateEffect words="Let's Create Something Amazing" className="text-3xl font-bold text-white whitespace-nowrap font-mono" />
+            <TextGenerateEffect
+              words="Creative Software Engineer"
+              className="text-3xl font-bold text-white whitespace-nowrap font-mono"
+            />
             <img
-            src="/Scroll down hint.gif"
-            alt="Scroll down"
-            className="h-16 w-16"
-          />
+              src="/Scroll down hint.gif"
+              alt="Scroll down"
+              className="h-16 w-16 mt-8"
+            />
           </div>
-
         </div>
-        <div className="absolute bottom-24 text-center md:right-1 md:top-1/2 md:-translate-y-1/2 z-10">
+        <div className="absolute top-2 md:bottom-24 text-center md:right-1 md:top-1/2 md:-translate-y-1/2 z-10">
           <TextHoverEffect text="vevaar" />
         </div>
 
@@ -74,8 +74,6 @@ export function HeroSection() {
 
         {/* Hidden audio element */}
         <audio ref={audioRef} src="/a.mp3" preload="auto" />
-
-      
       </div>
     </div>
   );
