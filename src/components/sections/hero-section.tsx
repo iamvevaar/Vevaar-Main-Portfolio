@@ -134,21 +134,20 @@ export function HeroSection() {
           </div>
         </div>
 
-        <FollowerPointerCard
-          title={
-            audioUnlocked
-              ? `Listening to ${audioFileName}`
-              : "Click to listen"
-          }
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className="absolute bottom-28 left-1/2 transform -translate-x-1/2 flex flex-col justify-center items-center text-center h-56 w-56 rounded-full cursor-pointer"
-        >
-          <div />
-        </FollowerPointerCard>
-
         <audio ref={audioRef} src={`/${audioFileName}`} preload="auto" loop />
       </div>
+      <FollowerPointerCard
+        title={
+          audioUnlocked
+            ? `Listening to ${audioFileName}`
+            : "Click to listen"
+        }
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className="absolute bottom-28 left-1/2 transform -translate-x-1/2 flex flex-col justify-center items-center text-center h-56 w-56 rounded-full cursor-pointer z-20"
+      >
+        <div />
+      </FollowerPointerCard>
     </div>
   );
 }
