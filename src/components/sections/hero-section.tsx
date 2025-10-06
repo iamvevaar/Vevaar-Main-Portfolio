@@ -79,9 +79,25 @@ export function HeroSection() {
 
   return (
     <div ref={containerRef} className="relative h-screen bg-black w-full">
-      <div className="sticky top-0 h-screen w-full grid md:grid-cols-3 items-center justify-items-center overflow-hidden">
-        {/* Left Column */}
-        <div className="z-10 text-center">
+      <div className="sticky top-0 h-screen w-full grid grid-cols-1 md:grid-cols-3 items-center justify-items-center overflow-hidden">
+        {/* Right Column - Order 1 on mobile, 3 on desktop */}
+        <div className="z-10 text-center order-1 md:order-3">
+          <TextHoverEffect text="vevaar" />
+        </div>
+
+        {/* Center Column (Video) - Order 2 on all screens */}
+        <div className="h-full flex items-center justify-center order-2 pb-[74px]">
+          <video
+            src="/Hero.mp4"
+            autoPlay
+            muted
+            loop
+            className="h-full object-contain"
+          />
+        </div>
+
+        {/* Left Column - Order 3 on mobile, 1 on desktop */}
+        <div className="z-10 text-center order-3 md:order-1 md:static absolute bottom-0">
           <div className="flex md:mt-16 items-center justify-center">
             <TextGenerateEffect
               words="Hello Saab"
@@ -109,29 +125,13 @@ export function HeroSection() {
               <motion.img
                 src="/Scroll down hint.gif"
                 alt="Scroll down"
-                className="h-16 w-16 mt-8"
+                className="h-16 w-16 mt-1"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
               />
             )}
           </div>
-        </div>
-
-        {/* Center Column (Video) */}
-        <div className="h-full flex items-center justify-center">
-          <video
-            src="/Hero.mp4"
-            autoPlay
-            muted
-            loop
-            className="h-full object-contain"
-          />
-        </div>
-
-        {/* Right Column */}
-        <div className="z-10 text-center">
-          <TextHoverEffect text="vevaar" />
         </div>
 
         <FollowerPointerCard
