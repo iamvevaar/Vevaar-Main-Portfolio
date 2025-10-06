@@ -79,10 +79,9 @@ export function HeroSection() {
 
   return (
     <div ref={containerRef} className="relative h-screen bg-black w-full">
-      <div className="sticky top-0 h-screen w-full flex justify-center overflow-hidden">
-        <video src="/Hero.mp4" autoPlay muted loop className="" />
-
-        <div className="absolute bottom-6 text-center md:left-12 md:top-1/2 md:-translate-y-1/2 z-10">
+      <div className="sticky top-0 h-screen w-full grid md:grid-cols-3 items-center justify-items-center overflow-hidden">
+        {/* Left Column */}
+        <div className="z-10 text-center">
           <div className="flex md:mt-16 items-center justify-center">
             <TextGenerateEffect
               words="Hello Saab"
@@ -118,7 +117,20 @@ export function HeroSection() {
             )}
           </div>
         </div>
-        <div className="absolute top-2 md:bottom-24 text-center md:right-1 md:top-1/2 md:-translate-y-1/2 z-10">
+
+        {/* Center Column (Video) */}
+        <div className="h-full flex items-center justify-center">
+          <video
+            src="/Hero.mp4"
+            autoPlay
+            muted
+            loop
+            className="h-full object-contain"
+          />
+        </div>
+
+        {/* Right Column */}
+        <div className="z-10 text-center">
           <TextHoverEffect text="vevaar" />
         </div>
 
@@ -130,7 +142,7 @@ export function HeroSection() {
           }
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className="absolute bottom-48 left-1/2 transform -translate-x-1/2 flex flex-col justify-center items-center text-center h-44 w-44 rounded-full cursor-pointer"
+          className="absolute bottom-28 left-1/2 transform -translate-x-1/2 flex flex-col justify-center items-center text-center h-56 w-56 rounded-full cursor-pointer"
         >
           <div />
         </FollowerPointerCard>
