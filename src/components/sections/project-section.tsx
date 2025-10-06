@@ -3,7 +3,9 @@ import { PointerHighlight } from "../ui/pointer-highlight";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 export function ProjectSection() {
   return (
-    <div className="h-auto py-16 sm:py-20 flex flex-col justify-center items-center px-4 tracking-tight">
+    <div 
+      id="projects"
+    className="h-auto py-16 sm:py-20 flex flex-col justify-center items-center px-4 tracking-tight">
       <div className="flex items-center justify-center flex-col">
         <h2 className="font-outfit mb-10 sm:mb-16 text-xl sm:text-5xl dark:text-white text-black flex flex-col items-center justify-center">
           <span>The best way to grow is to </span>

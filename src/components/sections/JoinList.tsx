@@ -230,7 +230,10 @@ export default function JoinList() {
   };
 
   return (
-    <div className="h-auto py-16 sm:py-20 flex flex-col justify-center items-center px-4 relative">
+    <div
+      id="join-list"
+      className="h-auto py-16 sm:py-20 flex flex-col justify-center items-center px-4 relative"
+    >
       <h2 className="font-outfit mb-10 sm:mb-16 text-xl text-center sm:text-5xl dark:text-white text-black">
         <span className="">Let's Connect Drop your details</span>
 

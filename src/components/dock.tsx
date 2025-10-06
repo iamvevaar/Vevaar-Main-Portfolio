@@ -3,14 +3,29 @@
 import { FloatingDock } from "@/components/ui/floating-dock";
 import {
   IconBrandGithub,
+  IconBrandTelegram,
   IconBrandX,
   IconExchange,
+  IconFileCv,
   IconHome,
   IconNewSection,
   IconTerminal2,
 } from "@tabler/icons-react";
 
 export function Dock() {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    if (href === "#") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (href.startsWith("#")) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      window.open(href, "_blank");
+    }
+  };
   const links = [
     {
       title: "Home",
@@ -18,6 +33,7 @@ export function Dock() {
         <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "#",
+      onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleClick(e, "#"),
     },
 
     {
@@ -25,7 +41,10 @@ export function Dock() {
       icon: (
         <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "#projects",
+      onClick: (e: React.MouseEvent<HTMLAnchorElement>) =>
+        handleClick(e, "#projects"),
+      
     },
     {
       title: "Components",
@@ -35,23 +54,20 @@ export function Dock() {
       href: "#",
     },
     {
-      title: "Aceternity UI",
+      title: "CV",
       icon: (
-        <img
-          src="https://assets.aceternity.com/logo-dark.png"
-          width={20}
-          height={20}
-          alt="Aceternity Logo"
-        />
+        <IconFileCv className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "https://drive.google.com/file/d/1PxmEV-XA7NXWSc69XaAPMVUIvKlxP7UO/view?usp=sharing",
     },
     {
-      title: "Changelog",
+      title: "Let's Talk",
       icon: (
-        <IconExchange className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <IconBrandTelegram className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "#join-list",
+      onClick: (e: React.MouseEvent<HTMLAnchorElement>) =>
+        handleClick(e, "#join-list"),
     },
 
     {
@@ -71,7 +87,7 @@ export function Dock() {
   ];
   return (
     <FloatingDock
-      mobileClassName="translate-y-20" // only for demo, remove for production
+      // mobileClassName="translate-y-20" // only for demo, remove for production
       items={links}
     />
   );
