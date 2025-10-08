@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Dock } from "@/components/dock";
 import { Footer } from "@/components/sections/footer";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -49,9 +48,6 @@ export default function RootLayout({
         {children}
          <Analytics />
         <SpeedInsights />
-        <div className="fixed bottom-10 left-0 right-0 flex justify-center">
-          <Dock />
-        </div>
       </body>
       <footer>
         <Footer/>

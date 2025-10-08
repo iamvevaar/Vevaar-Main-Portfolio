@@ -1,3 +1,4 @@
+import { Dock } from "@/components/dock";
 import { Footer } from "@/components/sections/footer";
 import { HeroSection } from "@/components/sections/hero-section";
 import JoinList from "@/components/sections/JoinList";
@@ -13,7 +14,10 @@ export default function Home() {
       <TimelineSection/>
       <ProjectSection/>
       <TechStackSection/>
-      <JoinList />  
+      <JoinList />
+      <div className="fixed bottom-10 left-0 right-0 flex justify-center">
+        <Dock />
+      </div>
     </main>
   );
 }
