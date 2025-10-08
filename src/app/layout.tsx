@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/sections/footer";
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Vevaar | वेवार ",
-  description: "Half-dev , half-vibe. Writes clean code on a clean desk.Living proof you can debug and chill.",
+  description:
+    "Half-dev , half-vibe. Writes clean code on a clean desk.Living proof you can debug and chill.",
   openGraph: {
     images: [
       {
@@ -29,11 +30,11 @@ export const metadata: Metadata = {
 
 // Export viewport separately
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-}
+};
 
 export default function RootLayout({
   children,
@@ -46,11 +47,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-         <Analytics />
+        <Analytics />
         <SpeedInsights />
       </body>
       <footer>
-        <Footer/>
+        <Footer />
       </footer>
     </html>
   );
