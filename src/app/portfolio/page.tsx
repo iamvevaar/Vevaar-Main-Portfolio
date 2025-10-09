@@ -5,6 +5,7 @@ import { IconBrandYoutube, IconBrandYoutubeFilled } from "@tabler/icons-react";
 import { PortfolioCard } from "@/components/ui/portfolio-card";
 import React from "react";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
+import { Spotlight } from "@/components/ui/spotlight";
 
 const PortfolioPage = () => {
   const portfolioItems = [
@@ -213,6 +214,10 @@ const PortfolioPage = () => {
             <span className="">for those shaping the future of tech.</span>
           </div>
         </h1>
+        <Spotlight
+        className="-top-40 left-0 md:-top-20 md:left-60"
+        fill="white"
+      />
 
         <div className="md:hidden">
           <PointerHighlight>

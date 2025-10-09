@@ -5,6 +5,7 @@ import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { TextHoverEffect } from "../ui/text-hover-effect";
 import { FollowerPointerCard } from "../ui/following-pointer";
 import { getAudioFileName } from "@/lib/audioUtils";
+import { Spotlight } from "../ui/spotlight";
 
 export function HeroSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -79,7 +80,12 @@ export function HeroSection() {
 
   return (
     <div ref={containerRef} className="relative h-screen bg-black w-full">
+      <Spotlight
+        className="-top-40 left-0 md:-top-20 md:left-60"
+        fill="white"
+      /> 
       <div className="sticky top-0 h-screen w-full grid grid-cols-1 md:grid-cols-3 items-center justify-items-center overflow-hidden">
+         
         {/* Right Column - Order 1 on mobile, 3 on desktop */}
         <div className="z-10 text-center order-1 md:order-3">
           <TextHoverEffect text="vevaar" />
