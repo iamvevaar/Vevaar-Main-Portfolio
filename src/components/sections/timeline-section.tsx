@@ -1,7 +1,12 @@
 "use client";
 import { Timeline } from "../ui/timeline";
 import { ImageCarousel } from "../ui/image-carousel";
-import { IconCheckbox, IconMapPin, IconMapPin2 } from "@tabler/icons-react";
+import {
+  IconCheckbox,
+  IconLink,
+  IconMapPin,
+  IconMapPin2,
+} from "@tabler/icons-react";
 import Link from "next/link";
 
 export function TimelineSection() {
@@ -13,13 +18,13 @@ export function TimelineSection() {
           src: "./riyaah-web.png",
           alt: "Riyaah Web",
           link: "https://riyaah.sa/ar",
-          name: "Riyaah Web",
+          name: "Visit Riyaah",
         },
         {
           src: "./riyaah-mobile.png",
           alt: "Riyaah Mobile",
           link: "https://riyaah.sa/ar",
-          name: "Riyaah Mobile",
+          name: "Visit Riyaah",
         },
       ],
       content: (item: any) => (
@@ -106,6 +111,7 @@ export function TimelineSection() {
               <Link
                 href={image.link}
                 key={`image-${idx}`}
+                target="_blank"
                 className="relative group overflow-hidden rounded-lg"
               >
                 <img
@@ -116,9 +122,12 @@ export function TimelineSection() {
                   className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    {image.name}
-                  </p>
+                  <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4 text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <span className=" flex items-center gap-2">
+                      <IconLink className="text-black" />
+                      {image.name}
+                    </span>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -133,13 +142,13 @@ export function TimelineSection() {
           src: "./hirehive-cpvp.png",
           alt: "HireHive Web",
           link: "https://hire.atvoid.com/",
-          name: "HireHive Web",
+          name: "Visit HireHive",
         },
         {
           src: "./hirehive-mobile.png",
           alt: "HireHive Mobile",
           link: "https://hire.atvoid.com/",
-          name: "HireHive Mobile",
+          name: "Visit HireHive ",
         },
       ],
       content: (item: any) => (
@@ -181,6 +190,7 @@ export function TimelineSection() {
             {item.images.map((image: any, idx: number) => (
               <Link
                 href={image.link}
+                target="_blank"
                 key={`image-${idx}`}
                 className="relative group overflow-hidden rounded-lg"
               >
@@ -192,9 +202,12 @@ export function TimelineSection() {
                   className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    {image.name}
-                  </p>
+                  <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4 text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <span className=" flex items-center gap-2">
+                      <IconLink className="text-white" />
+                      {image.name}
+                    </span>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -209,13 +222,13 @@ export function TimelineSection() {
           src: "./herkey-web.png",
           alt: "HerKey Web",
           link: "https://www.herkey.com/",
-          name: "HerKey Web",
+          name: "Visit HerKey",
         },
         {
           src: "./herkey-mobile.png",
           alt: "HerKey Mobile",
           link: "https://www.herkey.com/",
-          name: "HerKey Mobile",
+          name: "Visit HerKey",
         },
       ],
       content: (item: any) => (
@@ -257,6 +270,7 @@ export function TimelineSection() {
               <Link
                 href={image.link}
                 key={`image-${idx}`}
+                target="_blank"
                 className="relative group overflow-hidden rounded-lg"
               >
                 <img
@@ -267,9 +281,12 @@ export function TimelineSection() {
                   className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    {image.name}
-                  </p>
+                  <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4 text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <span className="flex items-center gap-2">
+                      <IconLink className="text-black" />
+                      {image.name}
+                    </span>
+                  </div>
                 </div>
               </Link>
             ))}
