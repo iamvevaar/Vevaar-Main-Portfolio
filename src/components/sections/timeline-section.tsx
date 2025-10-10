@@ -2,6 +2,7 @@
 import { Timeline } from "../ui/timeline";
 import { ImageCarousel } from "../ui/image-carousel";
 import { IconCheckbox, IconMapPin, IconMapPin2 } from "@tabler/icons-react";
+import Link from "next/link";
 
 export function TimelineSection() {
   const data = [
@@ -11,10 +12,14 @@ export function TimelineSection() {
         {
           src: "./riyaah-web.png",
           alt: "Riyaah Web",
+          link: "https://riyaah.sa/ar",
+          name: "Riyaah Web",
         },
         {
           src: "./riyaah-mobile.png",
           alt: "Riyaah Mobile",
+          link: "https://riyaah.sa/ar",
+          name: "Riyaah Mobile",
         },
       ],
       content: (item: any) => (
@@ -97,20 +102,26 @@ export function TimelineSection() {
             <ImageCarousel images={item.images} />
           </div>
           <div className="hidden md:grid grid-cols-2 gap-4">
-            <img
-              src="./riyaah-web.png"
-              alt="hero template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="./riyaah-mobile.png"
-              alt="feature template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-contain shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
+            {item.images.map((image: any, idx: number) => (
+              <Link
+                href={image.link}
+                key={`image-${idx}`}
+                className="relative group overflow-hidden rounded-lg"
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  width={500}
+                  height={500}
+                  className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
+                />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    {image.name}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       ),
@@ -121,10 +132,14 @@ export function TimelineSection() {
         {
           src: "./hirehive-cpvp.png",
           alt: "HireHive Web",
+          link: "https://hire.atvoid.com/",
+          name: "HireHive Web",
         },
         {
           src: "./hirehive-mobile.png",
           alt: "HireHive Mobile",
+          link: "https://hire.atvoid.com/",
+          name: "HireHive Mobile",
         },
       ],
       content: (item: any) => (
@@ -163,20 +178,26 @@ export function TimelineSection() {
             <ImageCarousel images={item.images} />
           </div>
           <div className="hidden md:grid grid-cols-2 gap-4">
-            <img
-              src="./hirehive-cpvp.png"
-              alt="hero template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="./hirehive-mobile.png"
-              alt="feature template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-contain shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
+            {item.images.map((image: any, idx: number) => (
+              <Link
+                href={image.link}
+                key={`image-${idx}`}
+                className="relative group overflow-hidden rounded-lg"
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  width={500}
+                  height={500}
+                  className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
+                />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    {image.name}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       ),
@@ -187,10 +208,14 @@ export function TimelineSection() {
         {
           src: "./herkey-web.png",
           alt: "HerKey Web",
+          link: "https://www.herkey.com/",
+          name: "HerKey Web",
         },
         {
           src: "./herkey-mobile.png",
           alt: "HerKey Mobile",
+          link: "https://www.herkey.com/",
+          name: "HerKey Mobile",
         },
       ],
       content: (item: any) => (
@@ -228,20 +253,26 @@ export function TimelineSection() {
             <ImageCarousel images={item.images} />
           </div>
           <div className="hidden md:grid grid-cols-2 gap-4">
-            <img
-              src="./herkey-web.png"
-              alt="hero template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="./herkey-mobile.png"
-              alt="feature template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-contain shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
+            {item.images.map((image: any, idx: number) => (
+              <Link
+                href={image.link}
+                key={`image-${idx}`}
+                className="relative group overflow-hidden rounded-lg"
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  width={500}
+                  height={500}
+                  className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
+                />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    {image.name}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       ),
