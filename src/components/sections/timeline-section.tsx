@@ -30,7 +30,17 @@ export function TimelineSection() {
       content: (item: any) => (
         <div>
           <span className="mb-4 text-xs font-normal flex justify-between text-neutral-800 md:text-sm dark:text-neutral-200">
-            <h2 className="text-2xl">Software Developer ~ Keuro Life</h2>
+            <h2 className="text-2xl">
+              Software Developer ~{" "}
+              <Link
+                href="https://keuro.life"
+                target="_blank"
+                className="group text-2xl text-blue-500 md:text-inherit md:hover:text-blue-500"
+              >
+                Keuro Life
+                <IconLink className="inline-block w-6 h-6 ml-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+            </h2>
             <span className="flex flex-col items-center">
               <IconMapPin /> Chennai
             </span>
@@ -155,7 +165,15 @@ export function TimelineSection() {
         <div>
           <span className="mb-4 text-xs font-normal flex justify-between text-neutral-800 md:text-sm dark:text-neutral-200">
             <h2 className="text-2xl">
-              Jr. Software Developer ~ Value At Void{" "}
+              Jr. Software Developer ~{" "}
+              <Link
+                href="https://atvoid.com/"
+                target="_blank"
+                className="group text-blue-500 md:text-inherit md:hover:text-blue-500"
+              >
+                Value At Void
+                <IconLink className="inline-block w-6 h-6 ml-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>{" "}
             </h2>
             <span className="flex flex-col items-center">
               <IconMapPin /> Dubai
@@ -234,7 +252,17 @@ export function TimelineSection() {
       content: (item: any) => (
         <div>
           <span className="mb-4 text-xs font-normal flex justify-between text-neutral-800 md:text-sm dark:text-neutral-200">
-            <h2 className="text-2xl">Intern Frontend Developer - Flooid.in</h2>
+            <h2 className="text-2xl">
+              Intern Frontend Developer -{" "}
+              <Link
+                href="https://www.flooid.in/"
+                target="_blank"
+                className="group text-blue-500 md:text-inherit md:hover:text-blue-500"
+              >
+                Flooid.in
+                <IconLink className="inline-block w-6 h-6 ml-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+            </h2>
             <span className="flex flex-col items-center">
               <IconMapPin /> Bengaluru
             </span>
