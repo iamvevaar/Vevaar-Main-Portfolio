@@ -1,30 +1,23 @@
+"use client";
 import { Timeline } from "../ui/timeline";
 import { ImageCarousel } from "../ui/image-carousel";
 import { IconCheckbox, IconMapPin, IconMapPin2 } from "@tabler/icons-react";
 
 export function TimelineSection() {
-  const images = [
-    {
-      src: "https://assets.aceternity.com/templates/startup-1.webp",
-      alt: "startup template",
-    },
-    {
-      src: "https://assets.aceternity.com/templates/startup-2.webp",
-      alt: "startup template",
-    },
-    {
-      src: "https://assets.aceternity.com/templates/startup-3.webp",
-      alt: "startup template",
-    },
-    {
-      src: "https://assets.aceternity.com/templates/startup-4.webp",
-      alt: "startup template",
-    },
-  ];
   const data = [
     {
       title: "June 2024 ~ Present",
-      content: (
+      images: [
+        {
+          src: "./riyaah-web.png",
+          alt: "Riyaah Web",
+        },
+        {
+          src: "./riyaah-mobile.png",
+          alt: "Riyaah Mobile",
+        },
+      ],
+      content: (item: any) => (
         <div>
           <span className="mb-4 text-xs font-normal flex justify-between text-neutral-800 md:text-sm dark:text-neutral-200">
             <h2 className="text-2xl">Software Developer ~ Keuro Life</h2>
@@ -101,7 +94,7 @@ export function TimelineSection() {
             </div>
           </div>
           <div className="md:hidden">
-            <ImageCarousel images={images} />
+            <ImageCarousel images={item.images} />
           </div>
           <div className="hidden md:grid grid-cols-2 gap-4">
             <img
@@ -124,7 +117,17 @@ export function TimelineSection() {
     },
     {
       title: "April 2024 ~ May 2024",
-      content: (
+      images: [
+        {
+          src: "./hirehive-cpvp.png",
+          alt: "HireHive Web",
+        },
+        {
+          src: "./hirehive-mobile.png",
+          alt: "HireHive Mobile",
+        },
+      ],
+      content: (item: any) => (
         <div>
           <span className="mb-4 text-xs font-normal flex justify-between text-neutral-800 md:text-sm dark:text-neutral-200">
             <h2 className="text-2xl">
@@ -157,7 +160,7 @@ export function TimelineSection() {
             </div>
           </div>
           <div className="md:hidden">
-            <ImageCarousel images={images} />
+            <ImageCarousel images={item.images} />
           </div>
           <div className="hidden md:grid grid-cols-2 gap-4">
             <img
@@ -180,7 +183,17 @@ export function TimelineSection() {
     },
     {
       title: "July 2023 ~ Decemeber 2023",
-      content: (
+      images: [
+        {
+          src: "./herkey-web.png",
+          alt: "HerKey Web",
+        },
+        {
+          src: "./herkey-mobile.png",
+          alt: "HerKey Mobile",
+        },
+      ],
+      content: (item: any) => (
         <div>
           <span className="mb-4 text-xs font-normal flex justify-between text-neutral-800 md:text-sm dark:text-neutral-200">
             <h2 className="text-2xl">Intern Frontend Developer - Flooid.in</h2>
@@ -212,7 +225,7 @@ export function TimelineSection() {
             </div>
           </div>
           <div className="md:hidden">
-            <ImageCarousel images={images} />
+            <ImageCarousel images={item.images} />
           </div>
           <div className="hidden md:grid grid-cols-2 gap-4">
             <img
