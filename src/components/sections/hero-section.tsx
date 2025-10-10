@@ -150,7 +150,7 @@ export function HeroSection() {
         }
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="absolute bottom-28 left-1/2 transform -translate-x-1/2 flex flex-col justify-center items-center text-center h-56 w-56 rounded-full cursor-pointer z-20"
+        className="absolute bottom-28 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col justify-center items-center text-center h-56 w-56 rounded-full cursor-pointer z-20"
       >
         <div />
       </FollowerPointerCard>
