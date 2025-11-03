@@ -65,7 +65,7 @@ export function Dock() {
           <IconFileCv className="h-full w-full text-neutral-500 dark:text-neutral-300" />
         </a>
       ),
-      href: "https://drive.google.com/file/d/1PxmEV-XA7NXWSc69XaAPMVUIvKlxP7UO/view?usp=sharing",
+      href: "https://drive.google.com/file/d/1I7Z5DYyK7uduNtmhNMOSEqmUQfK2hFcy/view?usp=sharing",
     },
     {
       title: "Let's Talk",
