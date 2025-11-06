@@ -9,6 +9,18 @@ import { Spotlight } from "@/components/ui/spotlight";
 
 const PortfolioPage = () => {
   const portfolioItems = [
+     {
+      title: "ARC network introduction",
+      description: "Everything you need to know about building on @arc",
+      imageUrl:
+        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      tryNowLink:
+        "https://chromewebstore.google.com/detail/x-fathom/ephnakeihcedogcajbfodoenjhangmhg",
+      learnMoreLink: "https://x-fathom.vevaar.com/",
+      youtubeLink: "https://www.youtube.com/shorts/eOewU1i8m4g",
+      embeddedVideoUrl: `<blockquote class="twitter-tweet" data-media-max-width="560"><p lang="en" dir="ltr">📹 <a href="https://twitter.com/uttam_singhk?ref_src=twsrc%5Etfw">@uttam_singhk</a> just broke down everything you need to know about building on <a href="https://twitter.com/arc?ref_src=twsrc%5Etfw">@arc</a>, <a href="https://twitter.com/circle?ref_src=twsrc%5Etfw">@circle</a>&#39;s new blockchain:<br><br>00:00 Intro to Arc<br>00:31 EVM Compatibility<br>00:53 USDC as Native Gas<br>04:29 Deterministic Finality<br>06:39 Simplified Block Times<br>06:49 Stable Fees <a href="https://t.co/82UMgfytbI">pic.twitter.com/82UMgfytbI</a></p>&mdash; Alchemy (@Alchemy) <a href="https://twitter.com/Alchemy/status/1986110383531131378?ref_src=twsrc%5Etfw">November 5, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`,
+      type: "Tutorials",
+    },
     {
       title: "Ethereum BLOBS",
       description: "Everything you need to know in 2 mins",
