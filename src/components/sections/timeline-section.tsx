@@ -146,7 +146,7 @@ export function TimelineSection() {
       ),
     },
     {
-      title: "April 2024 ~ May 2024",
+      title: "April 2024 ~ May 2025",
       images: [
         {
           src: "./hirehive-cpvp.png",
