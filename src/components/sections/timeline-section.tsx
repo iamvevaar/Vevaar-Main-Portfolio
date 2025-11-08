@@ -56,7 +56,9 @@ export function TimelineSection() {
               </div>
 
               <span>
-                <span className="font-extrabold underline underline-offset-4">Algolia Analytics Optimization : </span>
+                <span className="font-extrabold underline underline-offset-4">
+                  Algolia Analytics Optimization :{" "}
+                </span>
                 Optimized Algolia search analytics implementation, reducing
                 monthly event errors by 85% (10,000+ to 1,500), significantly
                 improving ML model training for product recommendations and
@@ -74,11 +76,13 @@ export function TimelineSection() {
               </div>
 
               <p>
-                <span className="font-extrabold underline underline-offset-4">Referral System Implementation : </span>
-                 Designed and integrated
-                end-to-end refer-and-earn feature with social sharing
-                capabilities, enabling viral growth marketing strategy and
-                increasing customer acquisition channels for the platform.
+                <span className="font-extrabold underline underline-offset-4">
+                  Referral System Implementation :{" "}
+                </span>
+                Designed and integrated end-to-end refer-and-earn feature with
+                social sharing capabilities, enabling viral growth marketing
+                strategy and increasing customer acquisition channels for the
+                platform.
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -90,12 +94,13 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                <span className="font-extrabold underline underline-offset-4">Analytics Events Restructuring : </span>
-                 Restructured GA4 and CleverTap
-                event tracking architecture following Google's best practices,
-                implementing enhanced e-commerce tracking that provided accurate
-                purchase funnel visibility and improved marketing attribution
-                accuracy by 90%.
+                <span className="font-extrabold underline underline-offset-4">
+                  Analytics Events Restructuring :{" "}
+                </span>
+                Restructured GA4 and CleverTap event tracking architecture
+                following Google's best practices, implementing enhanced
+                e-commerce tracking that provided accurate purchase funnel
+                visibility and improved marketing attribution accuracy by 90%.
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -107,11 +112,13 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                <span className="font-extrabold underline underline-offset-4">API Stability Enhancement : </span>
-                 Identified and resolved critical API
-                integration issues through Kibana log analysis, reducing API
-                error rates from 90% to under 10%, resulting in improved
-                application stability and seamless user transactions.
+                <span className="font-extrabold underline underline-offset-4">
+                  API Stability Enhancement :{" "}
+                </span>
+                Identified and resolved critical API integration issues through
+                Kibana log analysis, reducing API error rates from 90% to under
+                10%, resulting in improved application stability and seamless
+                user transactions.
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -123,12 +130,13 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                <span className="font-extrabold underline underline-offset-4">Cross-Browser Compatibility : </span>
-                 Fixed platform-specific bugs and
-                implemented polyfills to ensure feature parity across iOS
-                Safari, Android Chrome, and desktop browsers, achieving 100%
-                functionality coverage and eliminating device-specific user
-                complaints.
+                <span className="font-extrabold underline underline-offset-4">
+                  Cross-Browser Compatibility :{" "}
+                </span>
+                Fixed platform-specific bugs and implemented polyfills to ensure
+                feature parity across iOS Safari, Android Chrome, and desktop
+                browsers, achieving 100% functionality coverage and eliminating
+                device-specific user complaints.
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -140,11 +148,13 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                <span className="font-extrabold underline underline-offset-4">Performance & SEO Optimization : </span>
-                 Improved Lighthouse performance
-                score by 67% through lazy loading, code splitting, and bundle
-                optimization while achieving 90%+ SEO score, directly impacting
-                search rankings and reducing bounce rates.
+                <span className="font-extrabold underline underline-offset-4">
+                  Performance & SEO Optimization :{" "}
+                </span>
+                Improved Lighthouse performance score by 67% through lazy
+                loading, code splitting, and bundle optimization while achieving
+                90%+ SEO score, directly impacting search rankings and reducing
+                bounce rates.
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -153,14 +163,16 @@ export function TimelineSection() {
                   className="text-green-500"
                   height={24}
                   width={24}
-                  />
+                />
               </div>
               <p>
-                <span className="font-extrabold underline underline-offset-4">Server-Side Rendering Implementation : </span>
-                 Implemented SSR for
-                homepage and critical landing pages using Next.js, reducing
-                initial load time by 40% and improving Core Web Vitals metrics,
-                leading to better search engine indexing and user engagement.
+                <span className="font-extrabold underline underline-offset-4">
+                  Server-Side Rendering Implementation :{" "}
+                </span>
+                Implemented SSR for homepage and critical landing pages using
+                Next.js, reducing initial load time by 40% and improving Core
+                Web Vitals metrics, leading to better search engine indexing and
+                user engagement.
               </p>
             </div>
           </div>
@@ -230,6 +242,7 @@ export function TimelineSection() {
               <IconMapPin /> Dubai
             </span>
           </span>
+
           <div className="mb-8 flex flex-row flex-wrap gap-4">
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
               <div>
@@ -240,9 +253,9 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                Successfully led the migration of the entire application from
-                React.js to Next.js, improving page load time by 40% and SEO
-                rankings
+                Led end-to-end development of a high-performance creative hiring
+                platform handling 2,500+ re- quests per second, managing
+                frontend, backend, and DevOps responsibilities
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -254,9 +267,9 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                Resolved complex CSS layout issues across multiple device
-                viewports, enhancing the user experience for over 20% monthly
-                active users
+                Collaborated with world-class designers to implement interactive
+                UI/UX solutions using Three.js and GSAP animations for
+                client-facing roles
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -268,8 +281,8 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                Optimized PWA performance by implementing code splitting and
-                lazy loading, reducing initial bundle size by 30%
+                Conducted weekly progress presentations to C-level executives,
+                translating technical achievements into business value
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -281,11 +294,12 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                Implemented responsive UI components using Material UI and
-                Tailwind CSS, ensuring cross- browser compatibility
+                Developed responsive frontend interfaces for Magento e-commerce
+                projects while maintaining strong design-to-development workflow
               </p>
             </div>
           </div>
+
           <div className="md:hidden">
             <ImageCarousel images={item.images} />
           </div>
@@ -352,6 +366,7 @@ export function TimelineSection() {
               <IconMapPin /> Bengaluru
             </span>
           </span>
+
           <div className="mb-8 flex flex-row flex-wrap gap-4">
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
               <div>
@@ -362,9 +377,9 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                Led end-to-end development of a high-performance creative hiring
-                platform handling 2,500+ re- quests per second, managing
-                frontend, backend, and DevOps responsibilities
+                Successfully led the migration of the entire application from
+                React.js to Next.js, improving page load time by 40% and SEO
+                rankings
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -376,9 +391,9 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                Collaborated with world-class designers to implement interactive
-                UI/UX solutions using Three.js and GSAP animations for
-                client-facing roles
+                Resolved complex CSS layout issues across multiple device
+                viewports, enhancing the user experience for over 20% monthly
+                active users
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -390,8 +405,8 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                Conducted weekly progress presentations to C-level executives,
-                translating technical achievements into business value
+                Optimized PWA performance by implementing code splitting and
+                lazy loading, reducing initial bundle size by 30%
               </p>
             </div>
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
@@ -403,11 +418,12 @@ export function TimelineSection() {
                 />
               </div>
               <p>
-                Developed responsive frontend interfaces for Magento e-commerce
-                projects while maintaining strong design-to-development workflow
+                Implemented responsive UI components using Material UI and
+                Tailwind CSS, ensuring cross- browser compatibility
               </p>
             </div>
           </div>
+
           <div className="md:hidden">
             <ImageCarousel images={item.images} />
           </div>
