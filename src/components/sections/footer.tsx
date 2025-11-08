@@ -22,7 +22,7 @@ export function Footer() {
 
   return (
     <div className="container flex flex-col mx-auto my-16">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-8 pb-16 bg-black text-white">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 pt-8 pb-16 bg-black text-white">
         {/* Video Section */}
         <div className="flex items-center justify-center">
           <video

@@ -49,10 +49,10 @@ export default function RootLayout({
         {children}
         <Analytics />
         <SpeedInsights />
-      </body>
-      <footer>
+        <footer className="bg-black">
         <Footer />
       </footer>
+      </body>      
     </html>
   );
 }

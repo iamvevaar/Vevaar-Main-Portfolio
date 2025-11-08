@@ -5,9 +5,9 @@ export function ProjectSection() {
   return (
     <div 
       id="projects"
-    className="h-auto py-16 sm:py-20 flex flex-col justify-center items-center px-4 tracking-tight">
+    className="h-auto py-4 sm:py-20 flex flex-col justify-center items-center px-4 tracking-tight">
       <div className="flex items-center justify-center flex-col">
-        <h2 className="font-outfit mb-10 sm:mb-16 text-xl sm:text-5xl dark:text-white text-black flex flex-col items-center justify-center">
+        <h2 className="font-outfit  text-xl sm:text-5xl dark:text-white text-black flex flex-col items-center justify-center">
           <span>The best way to grow is to </span>
 
           <div className="relative flex justify-center bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
