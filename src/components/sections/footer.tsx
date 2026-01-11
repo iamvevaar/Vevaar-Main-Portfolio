@@ -9,6 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { Mail } from "lucide-react";
 import { TextGenerateEffectWithObserver } from "../ui/text-generate-effect-with-observer";
+import { CLOUDFRONT_URL } from "@/lib/config";
 
 export function Footer() {
   const about =
@@ -26,7 +27,7 @@ export function Footer() {
         {/* Video Section */}
         <div className="flex items-center justify-center">
           <video
-            src="/one.mp4"
+            src={`${CLOUDFRONT_URL}/one.mp4`}
             loop={true}
             autoPlay={true}
             muted

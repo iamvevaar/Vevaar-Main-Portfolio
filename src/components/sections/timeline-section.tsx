@@ -8,6 +8,7 @@ import {
   IconMapPin2,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import { CLOUDFRONT_URL } from "@/lib/config";
 
 export function TimelineSection() {
   const data = [
@@ -15,13 +16,13 @@ export function TimelineSection() {
       title: "June 2024 ~ Present",
       images: [
         {
-          src: "./riyaah-web.png",
+          src: `${CLOUDFRONT_URL}/riyaah-web.png`,
           alt: "Riyaah Web",
           link: "https://riyaah.sa/ar",
           name: "Visit Riyaah",
         },
         {
-          src: "./riyaah-mobile.png",
+          src: `${CLOUDFRONT_URL}/riyaah-mobile.png`,
           alt: "Riyaah Mobile",
           link: "https://riyaah.sa/ar",
           name: "Visit Riyaah",
@@ -212,13 +213,13 @@ export function TimelineSection() {
       title: "April 2024 ~ May 2025",
       images: [
         {
-          src: "./hirehive-cpvp.png",
+          src: `${CLOUDFRONT_URL}/hirehive-cpvp.png`,
           alt: "HireHive Web",
           link: "https://hire.atvoid.com/",
           name: "Visit HireHive",
         },
         {
-          src: "./hirehive-mobile.png",
+          src: `${CLOUDFRONT_URL}/hirehive-mobile.png`,
           alt: "HireHive Mobile",
           link: "https://hire.atvoid.com/",
           name: "Visit HireHive ",
@@ -336,13 +337,13 @@ export function TimelineSection() {
       title: "July 2023 ~ Decemeber 2023",
       images: [
         {
-          src: "./herkey-web.png",
+          src: `${CLOUDFRONT_URL}/herkey-web.png`,
           alt: "HerKey Web",
           link: "https://www.herkey.com/",
           name: "Visit HerKey",
         },
         {
-          src: "./herkey-mobile.png",
+          src: `${CLOUDFRONT_URL}/herkey-mobile.png`,
           alt: "HerKey Mobile",
           link: "https://www.herkey.com/",
           name: "Visit HerKey",

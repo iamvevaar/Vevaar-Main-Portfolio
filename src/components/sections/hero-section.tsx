@@ -6,6 +6,7 @@ import { TextHoverEffect } from "../ui/text-hover-effect";
 import { FollowerPointerCard } from "../ui/following-pointer";
 import { getAudioFileName } from "@/lib/audioUtils";
 import { Spotlight } from "../ui/spotlight";
+import { CLOUDFRONT_URL } from "@/lib/config";
 
 export function HeroSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -94,7 +95,7 @@ export function HeroSection() {
         {/* Center Column (Video) - Order 2 on all screens */}
         <div className="h-full flex items-center justify-center order-2 pb-[74px]">
           <video
-            src="/Hero.mp4"
+            src={`${CLOUDFRONT_URL}/Hero.mp4`}
             autoPlay
             muted
             loop
@@ -140,7 +141,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        <audio ref={audioRef} src={`/${audioFileName}`} preload="auto" loop />
+        <audio ref={audioRef} src={`${CLOUDFRONT_URL}/${audioFileName}`} preload="auto" loop />
       </div>
       <FollowerPointerCard
         title={
