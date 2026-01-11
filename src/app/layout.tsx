@@ -4,6 +4,7 @@ import "./globals.css";
 import { Footer } from "@/components/sections/footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { CLOUDFRONT_URL } from "@/lib/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: "/og-image.png",
+        url: `${CLOUDFRONT_URL}/og-image.png`,
       },
     ],
   },
