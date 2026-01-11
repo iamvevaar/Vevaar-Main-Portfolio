@@ -23,7 +23,6 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: `${CLOUDFRONT_URL}/favicon.ico`, sizes: "any" },
-      { url: "/favicon.ico", sizes: "any" },
     ],
     apple: [
       { url: `${CLOUDFRONT_URL}/favicon.ico`, sizes: "180x180" },
