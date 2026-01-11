@@ -20,6 +20,16 @@ export const metadata: Metadata = {
   title: "Vevaar | वेवार ",
   description:
     "Half-dev , half-vibe. Writes clean code on a clean desk.Living proof you can debug and chill.",
+  icons: {
+    icon: [
+      { url: `${CLOUDFRONT_URL}/favicon.ico`, sizes: "any" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [
+      { url: `${CLOUDFRONT_URL}/favicon.ico`, sizes: "180x180" },
+    ],
+    shortcut: `${CLOUDFRONT_URL}/favicon.ico`,
+  },
   openGraph: {
     images: [
       {
