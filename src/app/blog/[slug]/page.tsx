@@ -6,6 +6,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import { getAllSlugs, getPostSource, getPostAgentSource } from "@/lib/blog";
 import { mdxComponents } from "@/components/blog/mdx-components";
 import { CopyMarkdown } from "@/components/blog/CopyMarkdown";
+import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import { Spotlight } from "@/components/ui/spotlight";
 
 type Frontmatter = {
@@ -57,6 +58,7 @@ export default async function BlogPost({
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-hidden">
+      <ReadingProgress />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-screen overflow-hidden">
         <Spotlight
           className="-top-40 left-0 md:-top-20 md:left-60"
