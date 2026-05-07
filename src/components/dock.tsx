@@ -9,6 +9,7 @@ import {
   IconFileCv,
   IconHome,
   IconNewSection,
+  IconNotebook,
   IconTerminal2,
 } from "@tabler/icons-react";
 
@@ -52,6 +53,19 @@ export function Dock() {
         </Link>
       ),
       href: "/portfolio",
+    },
+    {
+      title: "Blog",
+      icon: (
+        <Link
+          href="/blog"
+          prefetch={true}
+          className="h-full w-full flex items-center justify-center"
+        >
+          <IconNotebook className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        </Link>
+      ),
+      href: "/blog",
     },
     {
       title: "CV",

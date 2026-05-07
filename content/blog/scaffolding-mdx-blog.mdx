@@ -1,0 +1,102 @@
+---
+title: "Scaffolding an MDX Blog into a Next.js Portfolio"
+description: "A meta-post — how this very blog was built. File by file, dependency by dependency, with infographics that animate inside the prose."
+date: "2026-05-03"
+readingTime: "5 min read"
+tags: ["Next.js", "MDX", "Build in Public"]
+---
+
+I wanted a blog. The kind that lives next to my portfolio, looks like the rest of the site, ships fast, and lets me drop a React component into the middle of a paragraph when prose isn't enough.
+
+This post is meta — you're reading the very thing it describes. The file tree below is real. The numbers ticking up are real. Here's how it came together.
+
+## Why MDX won
+
+MDX gives you Markdown for the boring parts and React for the fun parts. The post you're reading is one `.mdx` file — and the animations below are real components, not screenshots.
+
+<Callout variant="tip">
+**MDX = Markdown + JSX.** Write prose like a normal person. When you need an animation, chart, or interactive demo, drop a `<Component />` and keep writing.
+</Callout>
+
+The tradeoffs I weighed:
+
+- **Headless CMS** (Sanity, Hashnode) — nice GUI, but I'd have to fight to make posts feel native to my brand.
+- **Notion as CMS** — I already live in Notion, but the API is slow and the formatting is opinionated.
+- **MDX in repo** — every post is a git commit, infra cost is zero, full styling control, React inside.
+
+Free + fast + native = no contest.
+
+## The architecture
+
+The whole thing is six files plus content. That's it.
+
+<FileTree />
+
+`content/blog/` is plain MDX — no database, no admin panel, just text files. `lib/blog.ts` reads the directory and parses frontmatter. `app/blog/` holds two routes — the index and the dynamic post page. `components/blog/` holds the custom components I want available *inside* posts.
+
+## The four moves
+
+<InstallSteps />
+
+`next-mdx-remote/rsc` gives me a server-component-first MDX compiler — works directly in async pages, no client bundle needed for the prose. `gray-matter` parses the frontmatter at the top of each file. No webpack config. No plugin chain. Two dependencies and we're done.
+
+## What it costs
+
+<StatCounter value="2" label="dependencies added" />
+<StatCounter value="0" suffix="$" label="monthly infra" />
+<StatCounter value="45" suffix=" min" label="empty folder to first post" />
+
+## Custom components inside prose
+
+The juice of MDX is exactly this: when you need to *show* something instead of describing it, you reach for a component.
+
+```tsx
+// inside any .mdx file, just use it:
+<StatCounter value={42} label="some stat" />
+```
+
+The component lives in `components/blog/infographics/`. The `.mdx` file uses it by name — no imports needed, because the components are wired into the renderer:
+
+```tsx
+import { compileMDX } from "next-mdx-remote/rsc";
+
+const { content, frontmatter } = await compileMDX({
+  source,
+  components: { StatCounter, FileTree, InstallSteps, Callout },
+  options: { parseFrontmatter: true },
+});
+```
+
+That `components` map is where the magic is. Anything I put there is available inside every post — no per-post imports, no boilerplate.
+
+## Frontmatter as the source of truth
+
+Every post starts with this:
+
+```yaml
+---
+title: "Scaffolding an MDX Blog..."
+description: "A meta-post about..."
+date: "2026-05-03"
+readingTime: "5 min read"
+tags: ["Next.js", "MDX"]
+---
+```
+
+`gray-matter` parses it once on the server and exposes the metadata to three surfaces simultaneously.
+
+<Callout variant="info">
+**One source, three surfaces.** The same frontmatter renders the index card, the post header, *and* the `<head>` SEO tags. Change a field once, all three update. No drift.
+</Callout>
+
+## What's next
+
+A list of things I'll add as the blog grows up:
+
+- `rehype-pretty-code` for proper syntax highlighting (Shiki under the hood)
+- An RSS feed at `/feed.xml`
+- Reading-progress bar pinned to the top
+- Per-post OG image generation via `@vercel/og`
+- A `/notes` route for shorter, scrappier posts
+
+If you're reading this and thinking *"I should ship a blog"* — you can be at first-post in under an hour. Two dependencies, six files. Go.
