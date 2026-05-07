@@ -4,6 +4,7 @@ import "./globals.css";
 import { Footer } from "@/components/sections/footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { CLOUDFRONT_URL } from "@/lib/config";
 
 const geistSans = Geist({
@@ -59,6 +60,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <SpeedInsights />
+        <GoogleAnalytics />
         <footer className="bg-black">
         <Footer />
       </footer>
