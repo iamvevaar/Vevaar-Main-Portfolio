@@ -1,6 +1,6 @@
 ---
 title: "The Free, Unlimited Contact Form Backend Hiding in Your Google Account"
-description: "Stop paying per-submission. A Google Sheet plus a 12-line script is the spreadsheet-as-backend trick powering my own portfolio — here's how to wire one up in under an hour."
+description: "Stop paying per-submission. A Google Sheet plus a 12-line script is the spreadsheet-as-backend trick powering my own portfolio. Here's how to wire one up in under an hour."
 date: "2026-05-07"
 readingTime: "7 min read"
 tags: ["Google Sheets", "Apps Script", "Contact Form", "No Backend"]
@@ -8,9 +8,9 @@ tags: ["Google Sheets", "Apps Script", "Contact Form", "No Backend"]
 
 Every portfolio needs a contact form. None of them need a backend.
 
-That's the lie most tutorials sell you — that to receive a name, an email, and a message, you need a server, a database, an SMTP provider, and a paid plan once you cross some submission cap. You don't. You need a Google Sheet.
+That's the lie most tutorials sell you: that to receive a name, an email, and a message, you need a server, a database, an SMTP provider, and a paid plan once you cross some submission cap. You don't. You need a Google Sheet.
 
-This post is the one I wish I'd read before I shipped my own portfolio. It's the exact setup powering the **["Let's Connect"](/#join-list)** form on this very site — no Vercel function, no third-party SaaS, no monthly limit, no API key to leak. Just a spreadsheet, twelve lines of Apps Script, and a single `fetch`.
+This post is the one I wish I'd read before I shipped my own portfolio. It's the exact setup powering the **["Let's Connect"](/#join-list)** form on this very site. No Vercel function, no third-party SaaS, no monthly limit, no API key to leak. Just a spreadsheet, twelve lines of Apps Script, and a single `fetch`.
 
 ## The five-tool problem
 
@@ -18,7 +18,7 @@ If you searched "free contact form for Next.js" recently, you found these:
 
 <ComparisonTable />
 
-They're all fine. They all work. But every one of them is a vendor between you and your own data, with a meter ticking. Cross 50 submissions a month on Formspree, 100 on Netlify, 200 on EmailJS — and you're either upgrading or watching messages get dropped on the floor.
+They're all fine. They all work. But every one of them is a vendor between you and your own data, with a meter ticking. Cross 50 submissions a month on Formspree, 100 on Netlify, 200 on EmailJS, and you're either upgrading or watching messages get dropped on the floor.
 
 A Google Sheet has no meter. It is your data, in a format you already know how to read, sort, filter, and share. It just needs a tiny doorway.
 
@@ -36,17 +36,17 @@ The browser makes a request. Apps Script catches it, picks the fields out of the
 
 Now let's wire it up.
 
-## Step 1 — Create the Sheet
+## Step 1: Create the Sheet
 
-Go to [sheets.new](https://sheets.new) (yes, that's a real shortcut). Name it something like `contact-submissions`. In **row 1**, drop your column headers — these become your schema:
+Go to [sheets.new](https://sheets.new) (yes, that's a real shortcut). Name it something like `contact-submissions`. In **row 1**, drop your column headers. These become your schema:
 
 <SheetPreview />
 
-I keep four columns: `Timestamp`, `Name`, `Email`, `Message`. Add more later if you want — phone, source, referrer, whatever. The headers are just for *you*; the script writes by column position, not by name.
+I keep four columns: `Timestamp`, `Name`, `Email`, `Message`. Add more later if you want: phone, source, referrer, whatever. The headers are just for *you*; the script writes by column position, not by name.
 
 That's the database. Move on.
 
-## Step 2 — Open Apps Script
+## Step 2: Open Apps Script
 
 From inside the Sheet: **Extensions → Apps Script**. A new tab opens with a code editor that already has your sheet bound to it.
 
@@ -75,12 +75,12 @@ That's it. That's the whole backend.
 A couple of things to notice:
 
 - **`doGet(e)`** is a reserved name. Apps Script automatically routes incoming `GET` requests to it. There's a `doPost` too, but `GET` is simpler for this use case (more on that in Step 4).
-- **`e.parameter`** is the parsed query string. Send `?name=Sara&email=sara@x.com` and you get `{ name: "Sara", email: "sara@x.com" }`.
-- **`appendRow`** writes a new row at the bottom of the sheet. Position-based, not key-based — so the order of the array matters.
+- **`e.parameter`** is the parsed query string. Send `?name=Rupali&email=rupali@vevaar.com` and you get `{ name: "Rupali", email: "rupali@vevaar.com" }`.
+- **`appendRow`** writes a new row at the bottom of the sheet. Position-based, not key-based, so the order of the array matters.
 
-Hit **Save** (Cmd/Ctrl + S). Name the project anything — `contact-form-backend` works.
+Hit **Save** (Cmd/Ctrl + S). Name the project anything. `contact-form-backend` works.
 
-## Step 3 — Deploy as a Web App
+## Step 3: Deploy as a Web App
 
 This is the one slightly fiddly step. Top-right of the editor: **Deploy → New deployment**.
 
@@ -89,7 +89,7 @@ This is the one slightly fiddly step. Top-right of the editor: **Deploy → New 
 - **Execute as** → **Me**
 - **Who has access** → **Anyone**
 
-Click **Deploy**. Google asks you to authorize the script — that's because it's about to run *as you* and write to *your* sheet. Approve it.
+Click **Deploy**. Google asks you to authorize the script. That's because it's about to run *as you* and write to *your* sheet. Approve it.
 
 You'll get back a URL like:
 
@@ -100,10 +100,10 @@ https://script.google.com/macros/s/AKfycb...EXAMPLE.../exec
 Copy it. That's your doorway. Treat it like a public endpoint, because it is one.
 
 <Callout variant="warn">
-**Anyone-with-the-link can hit this URL.** That's the point — your form needs to. But it also means a determined bot can. We'll talk about cheap spam protection at the end. For a personal portfolio, the volume is low enough that this rarely matters in practice.
+**Anyone-with-the-link can hit this URL.** That's the point: your form needs to. But it also means a determined bot can. We'll talk about cheap spam protection at the end. For a personal portfolio, the volume is low enough that this rarely matters in practice.
 </Callout>
 
-## Step 4 — Hook your form to the URL
+## Step 4: Hook your form to the URL
 
 Back in your Next.js (or any) app, the entire client-side submit handler looks like this:
 
@@ -135,7 +135,7 @@ Apps Script supports both. But `POST` with a JSON body forces the browser to sen
 
 ### Why `mode: "no-cors"`?
 
-It tells the browser: *"I know I can't read this response. Send the request anyway."* The browser fires it off, the server (Apps Script) receives it and writes the row, and the response comes back as opaque — your code can't inspect status codes or response bodies.
+It tells the browser: *"I know I can't read this response. Send the request anyway."* The browser fires it off, the server (Apps Script) receives it and writes the row, and the response comes back as opaque. Your code can't inspect status codes or response bodies.
 
 That sounds bad. For a contact form, it isn't. You don't need the response. You just need the row to land. The Sheet is your confirmation.
 
@@ -152,9 +152,9 @@ That sounds bad. For a contact form, it isn't. You don't need the response. You 
 <StatCounter value="1" label="Google account needed" />
 <StatCounter value="5000000" label="Sheet row capacity (Google's cap)" />
 
-That last number is real — Google Sheets caps at **10 million cells per spreadsheet**. With four columns, that's 2.5 million submissions before you'd need a second sheet. For comparison, Formspree's free tier would let you collect 50 a month. You'd hit their cap in a single afternoon of going viral; you'd hit Google's after running this form for ~4,000 *years*.
+That last number is real. Google Sheets caps at **10 million cells per spreadsheet**. With four columns, that's 2.5 million submissions before you'd need a second sheet. For comparison, Formspree's free tier would let you collect 50 a month. You'd hit their cap in a single afternoon of going viral; you'd hit Google's after running this form for ~4,000 *years*.
 
-## But wait — the spreadsheet is way more than a database
+## But wait, the spreadsheet is way more than a database
 
 Here's the part most people miss. You didn't just get a *backend*. You got:
 
@@ -171,13 +171,13 @@ You got all of that because you stored your data in a tool that was designed for
 
 Be realistic about where this approach hurts:
 
-- **No real success/failure signal on the client.** With `mode: "no-cors"` you can't tell if the row landed. For a contact form this is fine — show a generic "Thanks!" toast. For an e-commerce checkout, absolutely not.
-- **Apps Script cold start.** First request after a quiet period takes ~1–2 seconds. Animate your submit button so users feel something is happening.
+- **No real success/failure signal on the client.** With `mode: "no-cors"` you can't tell if the row landed. For a contact form this is fine. Show a generic "Thanks!" toast. For an e-commerce checkout, absolutely not.
+- **Apps Script cold start.** First request after a quiet period takes ~1-2 seconds. Animate your submit button so users feel something is happening.
 - **Spam.** A public URL accepting GET requests *will* eventually get bot traffic. Cheap defenses, in increasing order of effort:
-  1. Add a hidden "honeypot" input — if it's filled, drop the row.
+  1. Add a hidden "honeypot" input. If it's filled, drop the row.
   2. Add a `secret` query param the script checks before writing.
   3. Add hCaptcha or Cloudflare Turnstile (still free) on the client.
-- **URL length limit.** Browsers cap URLs around 8KB. Don't accept full essays in `message` — or switch to `POST` (and accept the CORS dance).
+- **URL length limit.** Browsers cap URLs around 8KB. Don't accept full essays in `message`. Or switch to `POST` (and accept the CORS dance).
 - **It's still your Google account.** Lose access to it, lose the form. Worth it for personal projects; may not be for client work.
 
 ## Where to take it next
@@ -209,7 +209,7 @@ Three features. Zero new dependencies. Still the same Sheet.
 
 ## The takeaway
 
-You didn't need a backend. You needed a **place to put the data** and a **doorway for the data to get there**. A Google Sheet is the place. Twelve lines of Apps Script is the doorway. Everything else — the SaaS dashboards, the per-submission billing, the API keys — is overhead someone else is selling you.
+You didn't need a backend. You needed a **place to put the data** and a **doorway for the data to get there**. A Google Sheet is the place. Twelve lines of Apps Script is the doorway. Everything else (the SaaS dashboards, the per-submission billing, the API keys) is overhead someone else is selling you.
 
 If you've been putting off shipping a contact form because it felt like too much infrastructure: you're forty-five minutes away. Open a sheet. Paste the script. Hit deploy.
 

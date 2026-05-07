@@ -9,26 +9,26 @@ const cols = ["A", "B", "C", "D"];
 const rows: Row[] = [
   [
     "2026-05-07 10:42",
-    "Aarav Mehta",
-    "aarav@studio.in",
-    "Loved the X-Fathom extension — open to a chat?",
+    "Rupali",
+    "rupali@vevaar.com",
+    "Loved the X-Fathom extension, open to a chat?",
   ],
   [
     "2026-05-07 11:08",
-    "Sara Lin",
-    "sara@nimbus.dev",
+    "Rupali",
+    "rupali@vevaar.com",
     "Hiring for a creative FE role, you free this week?",
   ],
   [
     "2026-05-07 12:21",
-    "Devon K.",
-    "devon@orbital.app",
+    "Rupali",
+    "rupali@vevaar.com",
     "Need a polished portfolio rebuild. Budget ready.",
   ],
   [
     "2026-05-07 13:55",
-    "Priya R.",
-    "priya@fold.studio",
+    "Rupali",
+    "rupali@vevaar.com",
     "Quick question about your timeline section.",
   ],
 ];

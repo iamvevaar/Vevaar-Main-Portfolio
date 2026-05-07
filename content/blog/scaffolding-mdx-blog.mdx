@@ -1,6 +1,6 @@
 ---
 title: "Scaffolding an MDX Blog into a Next.js Portfolio"
-description: "A meta-post — how this very blog was built. File by file, dependency by dependency, with infographics that animate inside the prose."
+description: "A meta-post on how this very blog was built. File by file, dependency by dependency, with infographics that animate inside the prose."
 date: "2026-05-03"
 readingTime: "5 min read"
 tags: ["Next.js", "MDX", "Build in Public"]
@@ -8,11 +8,11 @@ tags: ["Next.js", "MDX", "Build in Public"]
 
 I wanted a blog. The kind that lives next to my portfolio, looks like the rest of the site, ships fast, and lets me drop a React component into the middle of a paragraph when prose isn't enough.
 
-This post is meta — you're reading the very thing it describes. The file tree below is real. The numbers ticking up are real. Here's how it came together.
+This post is meta. You're reading the very thing it describes. The file tree below is real. The numbers ticking up are real. Here's how it came together.
 
 ## Why MDX won
 
-MDX gives you Markdown for the boring parts and React for the fun parts. The post you're reading is one `.mdx` file — and the animations below are real components, not screenshots.
+MDX gives you Markdown for the boring parts and React for the fun parts. The post you're reading is one `.mdx` file, and the animations below are real components, not screenshots.
 
 <Callout variant="tip">
 **MDX = Markdown + JSX.** Write prose like a normal person. When you need an animation, chart, or interactive demo, drop a `<Component />` and keep writing.
@@ -20,9 +20,9 @@ MDX gives you Markdown for the boring parts and React for the fun parts. The pos
 
 The tradeoffs I weighed:
 
-- **Headless CMS** (Sanity, Hashnode) — nice GUI, but I'd have to fight to make posts feel native to my brand.
-- **Notion as CMS** — I already live in Notion, but the API is slow and the formatting is opinionated.
-- **MDX in repo** — every post is a git commit, infra cost is zero, full styling control, React inside.
+- **Headless CMS** (Sanity, Hashnode). Nice GUI, but I'd have to fight to make posts feel native to my brand.
+- **Notion as CMS**. I already live in Notion, but the API is slow and the formatting is opinionated.
+- **MDX in repo**. Every post is a git commit, infra cost is zero, full styling control, React inside.
 
 Free + fast + native = no contest.
 
@@ -32,13 +32,13 @@ The whole thing is six files plus content. That's it.
 
 <FileTree />
 
-`content/blog/` is plain MDX — no database, no admin panel, just text files. `lib/blog.ts` reads the directory and parses frontmatter. `app/blog/` holds two routes — the index and the dynamic post page. `components/blog/` holds the custom components I want available *inside* posts.
+`content/blog/` is plain MDX. No database, no admin panel, just text files. `lib/blog.ts` reads the directory and parses frontmatter. `app/blog/` holds two routes: the index and the dynamic post page. `components/blog/` holds the custom components I want available *inside* posts.
 
 ## The four moves
 
 <InstallSteps />
 
-`next-mdx-remote/rsc` gives me a server-component-first MDX compiler — works directly in async pages, no client bundle needed for the prose. `gray-matter` parses the frontmatter at the top of each file. No webpack config. No plugin chain. Two dependencies and we're done.
+`next-mdx-remote/rsc` gives me a server-component-first MDX compiler. Works directly in async pages, no client bundle needed for the prose. `gray-matter` parses the frontmatter at the top of each file. No webpack config. No plugin chain. Two dependencies and we're done.
 
 ## What it costs
 
@@ -55,7 +55,7 @@ The juice of MDX is exactly this: when you need to *show* something instead of d
 <StatCounter value={42} label="some stat" />
 ```
 
-The component lives in `components/blog/infographics/`. The `.mdx` file uses it by name — no imports needed, because the components are wired into the renderer:
+The component lives in `components/blog/infographics/`. The `.mdx` file uses it by name, no imports needed, because the components are wired into the renderer:
 
 ```tsx
 import { compileMDX } from "next-mdx-remote/rsc";
@@ -67,7 +67,7 @@ const { content, frontmatter } = await compileMDX({
 });
 ```
 
-That `components` map is where the magic is. Anything I put there is available inside every post — no per-post imports, no boilerplate.
+That `components` map is where the magic is. Anything I put there is available inside every post. No per-post imports, no boilerplate.
 
 ## Frontmatter as the source of truth
 
@@ -99,4 +99,4 @@ A list of things I'll add as the blog grows up:
 - Per-post OG image generation via `@vercel/og`
 - A `/notes` route for shorter, scrappier posts
 
-If you're reading this and thinking *"I should ship a blog"* — you can be at first-post in under an hour. Two dependencies, six files. Go.
+If you're reading this and thinking *"I should ship a blog"*, you can be at first-post in under an hour. Two dependencies, six files. Go.
