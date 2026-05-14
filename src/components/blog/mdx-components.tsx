@@ -5,6 +5,9 @@ import { Callout } from "./infographics/Callout";
 import { ComparisonTable } from "./infographics/ComparisonTable";
 import { FlowDiagram } from "./infographics/FlowDiagram";
 import { SheetPreview } from "./infographics/SheetPreview";
+import { ClaudeFlowDiagram } from "./infographics/ClaudeFlowDiagram";
+import { DashboardPreview } from "./infographics/DashboardPreview";
+import { SigNozInstallSteps } from "./infographics/SigNozInstallSteps";
 import { CodeBlock } from "./CodeBlock";
 
 export const mdxComponents = {
@@ -77,4 +80,7 @@ export const mdxComponents = {
   ComparisonTable,
   FlowDiagram,
   SheetPreview,
+  ClaudeFlowDiagram,
+  DashboardPreview,
+  SigNozInstallSteps,
 };

@@ -1,0 +1,150 @@
+---
+title: "Watch Claude Watch You: Putting Claude Code Under a Self-Hosted SigNoz Microscope"
+description: "Claude Code already speaks OpenTelemetry. Point it at a SigNoz container running on your laptop and you get a free, private dashboard of every token, tool call, and quota tick. No cloud, no key, no monthly bill."
+date: "2026-05-14"
+readingTime: "8 min read"
+tags: ["Observability", "SigNoz", "Claude Code", "OpenTelemetry", "Self-Hosted"]
+---
+
+Claude Code is already telling you what it's doing. You just have to open a window to listen.
+
+Every prompt, every tool call, every token, every dollar spent, every minute clawed back from your 5-hour quota. It is all leaving the CLI as OpenTelemetry signals, right now, on your machine. By default it goes nowhere. With about twenty minutes of work, it goes to a dashboard you own.
+
+This post is the one I wish I'd read the first week I got curious about *what is this thing actually doing*. Here is my own setup, end to end, with no cloud account, no ingestion key, no monthly bill, and no data leaving the laptop.
+
+## What you actually get
+
+Before any setup, the payoff. Mine, after a normal week of building:
+
+<DashboardPreview />
+
+A weekly token budget. A live USD counter. A pie chart of which model got routed for which work. A second pie of which tools I lean on (turns out: way too much Edit, not enough Grep). A 5-hour quota meter that warns me *before* I run face-first into the wall. Tokens-over-time so I can see when I went on a binge.
+
+None of this is new data. Claude Code has been emitting it since the day you installed it. The only thing missing was a place to put it.
+
+<Callout variant="tip">
+**The unlock:** Claude Code ships with an OpenTelemetry exporter built in. Flip one env var and it starts shouting metrics and logs into the void. The trick is putting an ear in the void. SigNoz is that ear, and you can run it in Docker for free.
+</Callout>
+
+## The three pieces
+
+<ClaudeFlowDiagram />
+
+Claude Code generates the data. SigNoz, running in a Docker container, swallows it on port 4317. Your browser reads it back on port 8080. No third party. No telemetry pipeline you don't control. If you `docker compose down`, the entire system goes with it.
+
+Now let's wire it up.
+
+## The four moves
+
+<SigNozInstallSteps />
+
+Each one in detail.
+
+## Step 1: Run SigNoz locally
+
+You need Docker with at least 4 GB of memory allocated. Beyond that, three commands:
+
+```bash
+git clone https://github.com/SigNoz/signoz.git
+cd signoz/deploy/docker
+docker compose up -d
+```
+
+That spins up the whole stack: the OTel collector listening on ports 4317 (gRPC) and 4318 (HTTP), a ClickHouse database for storage, and the SigNoz UI on port 8080. First boot pulls a few gigs of images and takes a couple minutes. Subsequent boots are seconds.
+
+<Callout variant="info">
+**Why ClickHouse?** Time-series telemetry is brutal on Postgres. SigNoz uses ClickHouse under the hood because it eats columnar data for breakfast. You will never touch it directly. It just makes queries feel instant when your dashboard is plotting 200,000 data points.
+</Callout>
+
+## Step 2: Open the UI
+
+Visit `http://localhost:8080`. SigNoz asks you to create the first admin user. Pick anything. There is no email verification, no billing screen, no upgrade nag. It's your container, your rules.
+
+You will land on an empty dashboard. That's fine. We are about to feed it.
+
+## Step 3: Tell Claude Code to talk to SigNoz
+
+This is the whole "backend" of this entire setup. Open `~/.claude/settings.json` and add an `env` block:
+
+```json
+{
+  "env": {
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+    "OTEL_METRICS_EXPORTER": "otlp",
+    "OTEL_LOGS_EXPORTER": "otlp",
+    "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
+    "OTEL_EXPORTER_OTLP_ENDPOINT": "http://localhost:4317",
+    "OTEL_METRIC_EXPORT_INTERVAL": "10000",
+    "OTEL_LOGS_EXPORT_INTERVAL": "5000"
+  }
+}
+```
+
+Seven keys. That's it.
+
+- **`CLAUDE_CODE_ENABLE_TELEMETRY`** is the master switch. Off by default. On is `"1"`.
+- **`OTEL_METRICS_EXPORTER`** and **`OTEL_LOGS_EXPORTER`** tell Claude to ship both signal types over OTLP. (No traces yet, Claude Code doesn't emit those.)
+- **`OTEL_EXPORTER_OTLP_PROTOCOL`** is `grpc` because gRPC on 4317 is what SigNoz prefers by default. HTTP on 4318 works too if you swap the port.
+- **`OTEL_EXPORTER_OTLP_ENDPOINT`** is the one line that decides "local vs cloud." `http://localhost:4317` keeps everything on your machine. The cloud path swaps in `https://ingest.<region>.signoz.cloud:443` and needs a `signoz-ingestion-key` header. We skip both.
+- **`OTEL_METRIC_EXPORT_INTERVAL`** and **`OTEL_LOGS_EXPORT_INTERVAL`** are how often Claude flushes. 10s and 5s are the defaults that ship in the official docs.
+
+Restart Claude Code. The next prompt you fire is the first one your container sees.
+
+<Callout variant="warn">
+**No ingestion key, on purpose.** With cloud SigNoz, your telemetry leaves your machine and you authenticate with a key. With local SigNoz, your telemetry never leaves your machine and there is nothing to authenticate. Don't paste a cloud ingestion key into a local setup, and don't expose port 4317 to the public internet without thinking hard about who can write to it.
+</Callout>
+
+## Step 4: Import the Claude Code dashboard
+
+SigNoz ships a Claude Code dashboard template. In the UI: **Dashboards → New Dashboard → Import JSON** and paste the template from [the SigNoz docs](https://signoz.io/docs/dashboards/dashboard-templates/claude-code-dashboard/). The panels are pre-wired to the metric names Claude Code emits (`claude_code.user_prompt`, `claude_code.api_request`, `claude_code.tool_decision`, `claude_code.tool_result`, and a handful of others).
+
+Hit save, watch the first numbers populate. If you've been using Claude Code while reading this, they're already there.
+
+## What you actually start noticing
+
+The point of observability is not the dashboard. It's the questions you couldn't ask before you had one. Within a week, mine answered:
+
+<StatCounter value={284310} label="tokens I spent before I noticed" />
+<StatCounter value="8" suffix=" $" label="cost I'd been hand-waving" />
+<StatCounter value="62" suffix=" %" label="of my 5h quota burned by Tuesday" />
+<StatCounter value="34" suffix=" %" label="of my tool calls were just Edit" />
+
+Each of those is a habit I would not have caught otherwise.
+
+- The **tool-split donut** showed me I was Edit-pilled, barely using Grep. Now I prompt differently.
+- The **model split** showed Sonnet doing 60% of the work, Opus 28%. I had been mentally crediting Opus for everything.
+- The **quota panel** caught me an hour before a wall I have hit before, and would have hit again.
+- The **accept-vs-reject** pie on Claude's suggestions told me I was rejecting one in four. That's a tuning signal, not a vibes feeling.
+
+You can stare at the same CLI for a year and not see any of that. The dashboard makes a week feel like a story.
+
+## Honest tradeoffs
+
+I would be lying if I said this was free in every sense. Where it costs you:
+
+- **RAM.** A SigNoz stack idles around 1.5 to 2 GB and can climb under load. On an 8 GB Mac it's noticeable. On 16 GB+ you'll forget it's there.
+- **Disk.** ClickHouse is fast because it stores everything. After a few weeks of heavy use, expect a few gigs in `~/signoz` or wherever Docker keeps your volumes. Add a retention policy if you care.
+- **Metrics and logs only.** Claude Code doesn't emit traces (yet). You can't follow one prompt through a flame graph the way you would for a microservice. You can still see almost everything that matters.
+- **Local-only by definition.** No sharing, no team view, no "send the dashboard to a coworker." That's the point on day one, and it's a limitation on day thirty. Cloud SigNoz is the upgrade if you ever want it.
+- **The dashboard is yours to maintain.** SigNoz upgrades occasionally break panels until the template catches up. A `docker compose pull && docker compose up -d` is the whole upgrade. If a panel breaks, you'll know in five seconds.
+
+## Where to take it next
+
+The fun part is that once the pipe exists, you can pour anything into it.
+
+- **Alert on quota.** SigNoz has alerts. Wire one to fire at 85% of your 5-hour window. Get a desktop notification instead of a wall.
+- **Slack/Discord webhook.** Same pattern as any other alert target. "Claude just hit 90% quota in the last 4 hours."
+- **Custom panels.** Cost per session, cost per project, tokens per file edited. The metrics are there, the dashboard is just one view of them.
+- **Pipe other tools in.** Anything OpenTelemetry-aware can write to that same `localhost:4317`. Your Node app. A Python script. The Vercel CLI. You built a tiny private observability layer; Claude Code was just the first thing to plug in.
+
+## The takeaway
+
+The data exists. Claude Code is generating it whether you read it or not. The question is whether you want a window into your own usage or whether you're fine flying blind. For me the answer turned into "I want the window," and the window cost twenty minutes and zero dollars.
+
+If you spend more than an hour a day in this thing, your weekly token bill is a story. Go read it.
+
+```bash
+docker compose up -d
+```
+
+That's the door. The rest is yours.
