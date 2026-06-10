@@ -1,0 +1,149 @@
+---
+title: "Selectors Are Dead: I Let an Open-Source AI Agent Drive My Browser Instead"
+description: "Every Playwright script is one renamed div away from a 2am page. Skyvern points a vision LLM at the rendered page, so the workflow survives the redesign. Open source, self-hostable, and it takes instructions in plain English."
+date: "2026-06-11"
+readingTime: "7 min read"
+tags: ["AI Agents", "Browser Automation", "Skyvern", "Open Source", "Playwright"]
+---
+
+Every scraper you have ever written is a bet that a stranger will never rename a div. You always lose that bet eventually.
+
+You know the ritual. The vendor portal ships a redesign on a Friday. Your `#invoice-download-btn` selector now points at nothing. The cron job fails silently for three days, someone asks where the invoices are, and you spend your evening squinting at DevTools to rewrite XPath for a page you have already reverse-engineered twice this year.
+
+This post is the one I wish I'd read before rewriting the same Playwright script for the fourth time. The fix is a different contract entirely: describe the task, not the DOM. The tool that got me there is [Skyvern](https://www.skyvern.com), open source, 20,000+ stars, self-hostable with a single `docker compose up`.
+
+## The graveyard of broken automations
+
+The problem is not your code. The problem is the contract. A selector is an agreement with a page, and the page never signed it.
+
+<AutomationShowdown />
+
+Selenium and Playwright are precise and fast, but they navigate by coordinates that someone else controls. Traditional RPA tools record clicks and replay them, which is the same bet with a worse debugger. Both share the same failure mode: the page changed, the script didn't.
+
+Skyvern's answer is to stop reading the markup and start looking at the page the way a person does.
+
+## Meet the agent that reads the screen
+
+Skyvern is an AI browser automation platform from a YC-backed team. Their one-line pitch: if it happens in a browser, Skyvern can run it. Under the hood it pairs a real browser with vision LLMs, so instead of `page.click("#submit")` you write "submit the form" and the agent figures out where the button is, even if it moved last night. The project is AGPL licensed, sits at 20,000+ GitHub stars, and has 10M+ workflows run in production behind it.
+
+## How it actually works
+
+Each step is one turn of a loop you will recognize if you have watched any agent work:
+
+<SkyvernAgentLoop />
+
+The agent takes a screenshot and reads the DOM, a vision LLM plans the next action, the action executes like a human would do it, and a validator checks whether the page actually moved toward the goal. Then it repeats. Because every decision starts from a fresh look at the page, a redesign costs the agent nothing. The button moved; it finds where it went.
+
+<Callout variant="info">
+**Explainable by design.** Every run produces a step-by-step trail: what the agent saw, what it decided, what it clicked, and why. You can even livestream the browser viewport and watch it drive. When something fails you read a story, not a stack trace pointing at a selector that no longer exists.
+</Callout>
+
+## Five minutes to your first agent
+
+Skyvern is a Python package with a built-in setup wizard:
+
+```bash
+pip install "skyvern[all]"
+skyvern quickstart
+```
+
+The wizard asks for an LLM key (OpenAI, Anthropic, Gemini, or local Ollama) and stands everything up. Then your first task is plain English:
+
+```python
+from skyvern import Skyvern
+
+skyvern = Skyvern.local()
+
+task = await skyvern.run_task(
+    prompt="Find the top post on Hacker News right now"
+)
+print(task.output)
+```
+
+That's the whole script. You describe the outcome and watch a browser go get it.
+
+## Playwright with a brain
+
+The feature I did not expect: Skyvern doesn't ask you to throw away your Playwright code. It extends the `page` object you already use:
+
+```python
+# the old way: pray the id never changes
+await page.click("#submit-btn")
+
+# the AI way: describe it like you would to a person
+await page.click(prompt="Click the green Submit button")
+
+# the hybrid: selector first, AI fallback when it breaks
+await page.click("#submit-btn", prompt="Click the green Submit button")
+```
+
+That third line is the migration path. Your existing suite keeps its fast, deterministic selectors, and the AI only wakes up the day a selector dies. The 2am page becomes a log line that says the fallback fired.
+
+Structured extraction works the same way:
+
+```python
+result = await page.extract(
+    "Get every product name and price on this page"
+)
+```
+
+You get JSON back, shaped by an optional schema if you need guarantees. There is also `page.validate("Check if the user is logged in")`, which returns a plain bool. If you have ever babysat a flaky end-to-end suite, you know exactly where that goes.
+
+<Callout variant="tip">
+**It gets cheaper as it runs.** Skyvern caches successful workflows into repeatable, deterministic runs. The vision LLM does the expensive thinking the first time through; replays skip straight to the actions until the page changes enough to need a re-think.
+</Callout>
+
+## The stuff that usually kills automation
+
+Everything above is the demo. These are the features for the parts of the job nobody demos:
+
+- **Logins behind 2FA.** Native TOTP support, QR, email and SMS based flows, plus integrations with Bitwarden and 1Password so credentials live in a vault, not in your `.env`.
+- **CAPTCHAs.** Solved natively, no third-party clicking farm bolted on.
+- **Geo-targeting.** Residential and datacenter proxies down to zip-code precision, for the portals that behave differently per region.
+- **Forms that fight back.** Dynamic fields, multi-page wizards, conditional dropdowns. The agent reads each new state instead of assuming a recording still applies.
+
+That combination is why the use cases on their site read like a back-office wishlist: invoice downloads from vendor portals, government filings, insurance quotes, EMR data extraction, KYC flows, job applications at scale. And since workflows plug into Zapier, Make, and n8n, a run can fire on a schedule or straight from your CRM instead of waiting for a human to press go.
+
+My favorite mundane example: a contact-form outreach run. One instruction like this, pointed at a list of sites:
+
+```python
+await page.agent.run_task(
+    "Fill the contact form as Rupali, rupali@vevaar.com, "
+    "message: saw your work, would love to collaborate"
+)
+```
+
+Forty sites, forty differently-shaped forms, one prompt. That task used to be a week of intern time, or a brittle script per site.
+
+## Self-host it, bring your own brain
+
+The part that fits how I like my tools: the whole stack runs on your machine.
+
+```bash
+git clone https://github.com/skyvern-ai/skyvern.git && cd skyvern
+cp .env.example .env   # add your LLM key here
+docker compose up -d   # UI on http://localhost:8080
+```
+
+Postgres, API server, and the visual workflow builder, all local. Point the `.env` at Ollama and the LLM runs on your hardware too, which means a browser agent with no per-task bill and no data leaving the laptop. If you'd rather not run anything, the cloud tier starts with 5,000 free credits a month and no card.
+
+## Where it bites
+
+Before you rewrite your whole test suite on a Friday:
+
+- **Each AI step costs tokens.** A vision model looks at every screenshot on first runs. Cached workflows fix the repeat cost, but exploratory runs are not free if you're on a paid API.
+- **Slower than raw Playwright.** Thinking takes seconds; a selector takes milliseconds. For a stable page you control, classic scripting still wins. This tool is for pages you don't control.
+- **AGPL-3.0.** Fine for internal automation, worth a lawyer-glance if you are embedding it in a product you sell.
+- **Terms of service still apply.** An agent that solves CAPTCHAs and rotates proxies will happily automate sites that do not want to be automated. An LLM doing the clicking changes nothing legally. Stick to portals you are authorized to use.
+
+## Describe the task, not the DOM
+
+The selector era trained us to describe *where* things are. Browser agents flip that: you describe *what you want*, and where becomes the machine's problem. After years of paying the redesign tax, that trade feels overdue.
+
+Your scraper will break this week or next month. The question is whether the fix is another evening in DevTools, or one sentence in plain English.
+
+```bash
+pip install "skyvern[all]"
+```
+
+Go tear up the contract.

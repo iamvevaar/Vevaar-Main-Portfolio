@@ -8,6 +8,8 @@ import { SheetPreview } from "./infographics/SheetPreview";
 import { ClaudeFlowDiagram } from "./infographics/ClaudeFlowDiagram";
 import { DashboardPreview } from "./infographics/DashboardPreview";
 import { SigNozInstallSteps } from "./infographics/SigNozInstallSteps";
+import { SkyvernAgentLoop } from "./infographics/SkyvernAgentLoop";
+import { AutomationShowdown } from "./infographics/AutomationShowdown";
 import { CodeBlock } from "./CodeBlock";
 
 export const mdxComponents = {
@@ -83,4 +85,6 @@ export const mdxComponents = {
   ClaudeFlowDiagram,
   DashboardPreview,
   SigNozInstallSteps,
+  SkyvernAgentLoop,
+  AutomationShowdown,
 };
