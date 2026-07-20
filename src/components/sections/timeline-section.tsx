@@ -1,6 +1,7 @@
 "use client";
 import { Timeline } from "../ui/timeline";
 import { ImageCarousel } from "../ui/image-carousel";
+import { CollapsibleReveal } from "../ui/collapsible-reveal";
 import {
   IconCheckbox,
   IconLink,
@@ -211,19 +212,19 @@ export function TimelineSection() {
     // },
 
     {
-      title: "June 2024 ~ Present",
+      title: "June 2025 ~ Present",
       images: [
         {
-          src: `${CLOUDFRONT_URL}/riyaah-web.png`,
-          alt: "Riyaah Web",
+          src: `${CLOUDFRONT_URL}/Astrosure-web.png`,
+          alt: "AstroSure.ai Web",
           link: "https://app.astrosure.ai",
-          name: "Visit Astrosure",
+          name: "Visit AstroSure.ai",
         },
         {
-          src: `${CLOUDFRONT_URL}/riyaah-mobile.png`,
-          alt: "Riyaah Mobile",
+          src: `${CLOUDFRONT_URL}/Astrosure-mobile.png`,
+          alt: "AstroSure.ai Mobile",
           link: "https://app.astrosure.ai",
-          name: "Visit Astrosure",
+          name: "Visit AstroSure.ai",
         },
       ],
       content: (item: any) => (
@@ -236,7 +237,7 @@ export function TimelineSection() {
                 target="_blank"
                 className="group text-2xl text-blue-500 md:text-inherit md:hover:text-blue-500"
               >
-                Astrosure
+                AstroSure.ai
                 <IconLink className="inline-block w-6 h-6 ml-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
             </h2>
@@ -244,7 +245,8 @@ export function TimelineSection() {
               <IconMapPin /> Chennai
             </span>
           </span>
-          <div className="mb-8 flex flex-row flex-wrap gap-4">
+          <CollapsibleReveal>
+            <div className="flex flex-row flex-wrap gap-4">
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
               <div>
                 <IconCheckbox className="text-green-500" height={24} width={24} />
@@ -343,7 +345,8 @@ export function TimelineSection() {
                 deployment frequency and release confidence across the team.
               </p>
             </div>
-          </div>
+            </div>
+          </CollapsibleReveal>
           <div className="md:hidden">
             <ImageCarousel images={item.images} />
           </div>
@@ -411,7 +414,8 @@ export function TimelineSection() {
             </span>
           </span>
 
-          <div className="mb-8 flex flex-row flex-wrap gap-4">
+          <CollapsibleReveal>
+            <div className="flex flex-row flex-wrap gap-4">
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
               <div>
                 <IconCheckbox
@@ -466,7 +470,8 @@ export function TimelineSection() {
                 projects while maintaining strong design-to-development workflow
               </p>
             </div>
-          </div>
+            </div>
+          </CollapsibleReveal>
 
           <div className="md:hidden">
             <ImageCarousel images={item.images} />
@@ -535,7 +540,8 @@ export function TimelineSection() {
             </span>
           </span>
 
-          <div className="mb-8 flex flex-row flex-wrap gap-4">
+          <CollapsibleReveal>
+            <div className="flex flex-row flex-wrap gap-4">
             <div className="flex items-start gap-2 text-xs text-neutral-700 md:text-sm dark:text-neutral-300">
               <div>
                 <IconCheckbox
@@ -590,7 +596,8 @@ export function TimelineSection() {
                 Tailwind CSS, ensuring cross- browser compatibility
               </p>
             </div>
-          </div>
+            </div>
+          </CollapsibleReveal>
 
           <div className="md:hidden">
             <ImageCarousel images={item.images} />
