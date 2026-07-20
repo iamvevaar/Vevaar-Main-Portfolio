@@ -356,14 +356,14 @@ export function TimelineSection() {
                 href={image.link}
                 key={`image-${idx}`}
                 target="_blank"
-                className="relative group overflow-hidden rounded-lg"
+                className={`relative group overflow-hidden rounded-lg ${idx === 0 ? "" : "bg-white/[0.03] ring-1 ring-inset ring-white/[0.06]"}`}
               >
                 <img
                   src={image.src}
                   alt={image.alt}
                   width={500}
                   height={500}
-                  className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
+                  className={`h-20 w-full rounded-lg ${idx === 0 ? "object-cover" : "object-contain"} shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm`}
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4 text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
@@ -482,14 +482,14 @@ export function TimelineSection() {
                 href={image.link}
                 target="_blank"
                 key={`image-${idx}`}
-                className="relative group overflow-hidden rounded-lg"
+                className={`relative group overflow-hidden rounded-lg ${idx === 0 ? "" : "bg-white/[0.03] ring-1 ring-inset ring-white/[0.06]"}`}
               >
                 <img
                   src={image.src}
                   alt={image.alt}
                   width={500}
                   height={500}
-                  className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
+                  className={`h-20 w-full rounded-lg ${idx === 0 ? "object-cover" : "object-contain"} shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm`}
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4 text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
@@ -608,14 +608,14 @@ export function TimelineSection() {
                 href={image.link}
                 key={`image-${idx}`}
                 target="_blank"
-                className="relative group overflow-hidden rounded-lg"
+                className={`relative group overflow-hidden rounded-lg ${idx === 0 ? "" : "bg-white/[0.03] ring-1 ring-inset ring-white/[0.06]"}`}
               >
                 <img
                   src={image.src}
                   alt={image.alt}
                   width={500}
                   height={500}
-                  className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
+                  className={`h-20 w-full rounded-lg ${idx === 0 ? "object-cover" : "object-contain"} shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60 transition-all duration-300 group-hover:scale-105 group-hover:blur-sm`}
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4 text-lg font-bold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
