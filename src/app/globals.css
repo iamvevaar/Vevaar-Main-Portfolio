@@ -214,3 +214,60 @@
     animation: none;
   }
 }
+
+/* ---------- Shine surface: YouTube dark-mode "glossy pill" aesthetic ---------- */
+/* A dark surface with a subtle top-lit sheen + hairline border. Reused for the
+   portfolio cards and their pill buttons. */
+.shine-surface {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.035) 28%,
+      rgba(255, 255, 255, 0.02) 100%
+    ),
+    #141416;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 30px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    background 0.35s ease;
+}
+
+.shine-surface:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 18px 46px rgba(0, 0, 0, 0.5);
+}
+
+/* Slightly brighter variant for the small pill buttons sitting on a card. */
+.shine-pill {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    #1b1b1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.group:hover .shine-pill {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.06) 100%
+    ),
+    #232327;
+  border-color: rgba(255, 255, 255, 0.2);
+}
