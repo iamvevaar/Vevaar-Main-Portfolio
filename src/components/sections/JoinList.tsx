@@ -312,7 +312,7 @@ export default function JoinList() {
               !emailValue.trim() ||
               !isValidEmail(emailValue)
             }
-            className={`px-8 py-3 bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}
+            className="cta-glow group inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium tracking-wide text-white/90 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <span className="flex items-center justify-center">

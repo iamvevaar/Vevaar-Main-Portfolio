@@ -155,6 +155,7 @@
   --cta-border: 1.5px;
   position: relative;
   isolation: isolate;
+  cursor: pointer;
   border-radius: 9999px;
   /* Solid dark interior on the padding box, animated conic ring on the border box. */
   background:
