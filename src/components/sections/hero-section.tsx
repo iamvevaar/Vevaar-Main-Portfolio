@@ -19,9 +19,49 @@ type Beat = {
   headline: string;
   gradient: string[]; // words in headline that get the brand gradient
   sub: string;
+  subHighlight?: string; // a word in `sub` that gets the brand gradient
   enter: [number, number];
   exit: [number, number] | null;
 };
+
+// A word that starts white and has the brand gradient wipe in left-to-right as
+// `fill` goes 0 -> 1 (driven by scroll). White base sits under a gradient copy
+// that is revealed via an animated clip-path.
+function GradientFillWord({
+  text,
+  fill,
+}: {
+  text: string;
+  fill: MotionValue<number>;
+}) {
+  const clip = useTransform(fill, (v) => `inset(0 ${(1 - v) * 100}% 0 0)`);
+  return (
+    <span className="relative inline-block whitespace-nowrap font-semibold">
+      <span className="text-white">{text}</span>
+      <motion.span
+        aria-hidden
+        style={{ clipPath: clip }}
+        className="absolute inset-0 bg-gradient-to-r from-purple-400 via-violet-400 to-pink-400 bg-clip-text text-transparent"
+      >
+        {text}
+      </motion.span>
+    </span>
+  );
+}
+
+// Renders `sub`, wrapping any occurrence of `highlight` in the scroll-fill word.
+function renderSub(
+  sub: string,
+  highlight: string | undefined,
+  fill: MotionValue<number>
+) {
+  if (!highlight || !sub.includes(highlight)) return sub;
+  return sub.split(highlight).flatMap((part, i) =>
+    i === 0
+      ? [part]
+      : [<GradientFillWord key={i} text={highlight} fill={fill} />, part]
+  );
+}
 
 const BEATS: Beat[] = [
   {
@@ -29,6 +69,7 @@ const BEATS: Beat[] = [
     headline: "Half dev, half vibe.",
     gradient: ["vibe."],
     sub: "I'm Gautam, aka iamvevaar. Creative Software Engineer: design in one hand, code in the other.",
+    subHighlight: "iamvevaar",
     enter: [0.14, 0.3],
     exit: [0.34, 0.4],
   },
@@ -115,6 +156,11 @@ function SceneBeat({
   const subOpacity = useTransform(progress, [subStart, enterEnd], [0, 1]);
   const subY = useTransform(progress, [subStart, enterEnd], [24, 0]);
 
+  // The highlighted sub word fills with the gradient as you scroll through the
+  // "fully visible" hold — white when the text lands, gradient by the time it
+  // starts to exit.
+  const highlightFill = useTransform(progress, [enterEnd, exitRange[0]], [0, 1]);
+
   // Only the invite beat (the one that never exits) gets the CTA. Its clicks
   // are enabled only once the beat is actually on screen, so the invisible
   // scene can't swallow clicks meant for the content below.
@@ -159,7 +205,7 @@ function SceneBeat({
         style={{ opacity: subOpacity, y: subY }}
         className="mt-7 max-w-xl text-base sm:text-lg text-neutral-300 leading-relaxed"
       >
-        {beat.sub}
+        {renderSub(beat.sub, beat.subHighlight, highlightFill)}
       </motion.p>
 
       {isInvite && (
@@ -209,6 +255,127 @@ export function HeroSection() {
   const videoBright = useTransform(scrollYProgress, [0.04, 0.2], [1, 0.4]);
   const videoFilter = useMotionTemplate`blur(${videoBlur}px) brightness(${videoBright})`;
   const washOpacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
+
+  // --- Step controller -----------------------------------------------------
+  // Instead of scrubbing the animation to raw scroll, each scroll gesture snaps
+  // the window between fixed progress "steps", so one flick = one beat and a
+  // fast scroll can't blow past everything. Past the last step it releases to
+  // the page below; before the first it releases upward. Reuses every existing
+  // scroll-bound animation — we just drive the scroll position ourselves.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // progress targets: landing -> intro(white) -> iamvevaar fills -> camera -> action
+    const STEPS = [0, 0.3, 0.34, 0.6, 1];
+    const MAX = STEPS.length - 1;
+    const DURATION = 750;
+
+    const range = () => Math.max(1, container.offsetHeight - window.innerHeight);
+    const stepY = (i: number) => container.offsetTop + STEPS[i] * range();
+    const nearestStep = () => {
+      const y = window.scrollY;
+      let best = 0;
+      let bestD = Infinity;
+      STEPS.forEach((_, i) => {
+        const d = Math.abs(y - stepY(i));
+        if (d < bestD) {
+          bestD = d;
+          best = i;
+        }
+      });
+      return best;
+    };
+
+    let step = nearestStep();
+    let cooldownUntil = 0;
+    let raf = 0;
+
+    const animateTo = (targetY: number) => {
+      cancelAnimationFrame(raf);
+      const startY = window.scrollY;
+      const dist = targetY - startY;
+      const t0 = performance.now();
+      cooldownUntil = t0 + DURATION + 150;
+      const html = document.documentElement;
+      const prevBehavior = html.style.scrollBehavior;
+      html.style.scrollBehavior = "auto"; // don't let CSS smooth fight us
+      const ease = (t: number) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      const frame = (now: number) => {
+        const t = Math.min((now - t0) / DURATION, 1);
+        window.scrollTo(0, startY + dist * ease(t));
+        if (t < 1) raf = requestAnimationFrame(frame);
+        else html.style.scrollBehavior = prevBehavior;
+      };
+      raf = requestAnimationFrame(frame);
+    };
+
+    // Advance/retreat a step. Returns true if we consumed the gesture.
+    const go = (dir: number) => {
+      if (dir > 0 && step < MAX) {
+        step += 1;
+        animateTo(stepY(step));
+        return true;
+      }
+      if (dir < 0 && step > 0) {
+        step -= 1;
+        animateTo(stepY(step));
+        return true;
+      }
+      return false; // at an edge -> release to native scroll
+    };
+
+    const insideHero = () => {
+      const y = window.scrollY;
+      return y >= container.offsetTop - 4 && y <= stepY(MAX) + 4;
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (!insideHero()) {
+        if (performance.now() > cooldownUntil) step = nearestStep();
+        return;
+      }
+      if (performance.now() < cooldownUntil) {
+        e.preventDefault();
+        return;
+      }
+      const dir = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0;
+      if (dir === 0) return;
+      if (go(dir)) e.preventDefault();
+    };
+
+    let touchStartY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (insideHero()) e.preventDefault(); // hold the page during the sequence
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!insideHero()) {
+        step = nearestStep();
+        return;
+      }
+      if (performance.now() < cooldownUntil) return;
+      const dy = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(dy) < 30) return;
+      go(dy > 0 ? 1 : -1);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: false });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+    };
+  }, []);
 
   // Silently unlock audio on ANY user interaction
   useEffect(() => {
