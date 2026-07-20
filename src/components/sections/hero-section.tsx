@@ -351,7 +351,12 @@ export function HeroSection() {
       touchStartY = e.touches[0].clientY;
     };
     const onTouchMove = (e: TouchEvent) => {
-      if (insideHero()) e.preventDefault(); // hold the page during the sequence
+      if (!insideHero()) return; // outside the hero -> native scroll
+      const dy = touchStartY - e.touches[0].clientY; // >0 = swipe up (go to next)
+      // At a releasing edge, let native scroll through so the page can continue:
+      // last step swiping down-the-page, or first step swiping up.
+      if ((step >= MAX && dy > 0) || (step <= 0 && dy < 0)) return;
+      e.preventDefault(); // otherwise hold the page and step on release
     };
     const onTouchEnd = (e: TouchEvent) => {
       if (!insideHero()) {
