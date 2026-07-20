@@ -1,15 +1,21 @@
+"use client";
+
+import type { MouseEvent } from "react";
 import { IconBrandYoutubeFilled } from "@tabler/icons-react";
 import { PointerHighlight } from "../ui/pointer-highlight";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
+import { CLOUDFRONT_URL } from "@/lib/config";
 
 type Project = {
   title: string;
   description: string;
   image: string;
   imageAlt: string;
-  primaryCta: { label: string; href: string };
+  // The whole card links here. primaryCta / youtubeCta are optional — projects
+  // without a download or a video simply don't render those buttons.
   secondaryCta: { label: string; href: string };
-  youtubeCta: { href: string };
+  primaryCta?: { label: string; href: string };
+  youtubeCta?: { href: string };
 };
 
 const PLACEHOLDER_IMAGE =
@@ -17,9 +23,37 @@ const PLACEHOLDER_IMAGE =
 
 const projects: Project[] = [
   {
+    title: "Life at GITS",
+    description: "An interactive infinite canvas of life at GITS. Pan, zoom and fly through it.",
+    image: `${CLOUDFRONT_URL}/lifeatgits.png`,
+    imageAlt: "Life at GITS thumbnail",
+    primaryCta: {
+      label: "Explore →",
+      href: "https://lifeatgits.vevaar.com/",
+    },
+    secondaryCta: {
+      label: "Learn more",
+      href: "https://lifeatgits.vevaar.com/",
+    },
+  },
+  {
+    title: "CampusAI",
+    description: "Your AI senior that knows your university, syllabus and deadlines.",
+    image: `${CLOUDFRONT_URL}/campusai.png`,
+    imageAlt: "CampusAI thumbnail",
+    primaryCta: {
+      label: "Try now →",
+      href: "https://campusai.vevaar.com",
+    },
+    secondaryCta: {
+      label: "Learn more",
+      href: "https://campusai.vevaar.com/",
+    },
+  },
+  {
     title: "FFmcpeg",
     description: "FFmpeg’s full power , without a single command.",
-    image: PLACEHOLDER_IMAGE,
+    image: `${CLOUDFRONT_URL}/ffmcpeg.png`,
     imageAlt: "New project thumbnail",
     primaryCta: {
       label: "Try now →",
@@ -36,7 +70,7 @@ const projects: Project[] = [
   {
     title: "X-Fathom",
     description: "Enhanced Immersive Experience for Fathom",
-    image: PLACEHOLDER_IMAGE,
+    image: `${CLOUDFRONT_URL}/x-fathom.png`,
     imageAlt: "X-Fathom thumbnail",
     primaryCta: {
       label: "Try now →",
@@ -53,65 +87,86 @@ const projects: Project[] = [
 ];
 
 function ProjectCard({ project }: { project: Project }) {
+  const openProject = () =>
+    window.open(project.secondaryCta.href, "_blank", "noopener,noreferrer");
+
   return (
-    <CardContainer className="inter-var">
-      <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
-        <CardItem
-          translateZ="50"
-          className="text-xl font-bold text-neutral-600 dark:text-white"
-        >
-          {project.title}
-        </CardItem>
-        <CardItem
-          as="p"
-          translateZ="60"
-          className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
-        >
-          {project.description}
-        </CardItem>
-        <CardItem translateZ="100" className="w-full mt-4">
-          <img
-            src={project.image}
-            height="1000"
-            width="1000"
-            className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-            alt={project.imageAlt}
-          />
-        </CardItem>
-        <div className="flex justify-between items-center mt-20">
+    // The whole card is the link now. Clicks bubble up here regardless of the
+    // 3D depth of what was clicked; the action buttons below stop propagation
+    // so they keep their own destinations.
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={openProject}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openProject();
+        }
+      }}
+      aria-label={`Open ${project.title}`}
+      className="cursor-pointer rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60"
+    >
+      <CardContainer className="inter-var">
+        <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
           <CardItem
-            translateZ={20}
-            as="a"
-            href={project.primaryCta.href}
-            target="_blank"
-            className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+            translateZ="50"
+            className="text-xl font-bold text-neutral-600 dark:text-white"
           >
-            {project.primaryCta.label}
+            {project.title}
           </CardItem>
-          <div className="flex gap-4">
-            <CardItem
-              translateZ={20}
-              as="a"
-              href={project.secondaryCta.href}
-              target="_blank"
-              className="px-4 py-2 rounded-xl cursor-pointer bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
-            >
-              {project.secondaryCta.label}
-            </CardItem>
-            <CardItem
-              translateZ={20}
-              as="a"
-              href={project.youtubeCta.href}
-              target="_blank"
-              className="px-4 py-2 rounded-xl cursor-pointer bg-red-600 hover:bg-red-700 text-white text-xs font-bold flex items-center gap-2"
-            >
-              <IconBrandYoutubeFilled size={18} />
-              Watch on YouTube
-            </CardItem>
+          <CardItem
+            as="p"
+            translateZ="60"
+            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+          >
+            {project.description}
+          </CardItem>
+          <CardItem translateZ="100" className="w-full mt-4">
+            <img
+              src={project.image}
+              height="1000"
+              width="1000"
+              className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+              alt={project.imageAlt}
+            />
+          </CardItem>
+          {(project.primaryCta || project.youtubeCta) && (
+          <div className="flex justify-between items-center mt-20">
+            {project.primaryCta ? (
+              <CardItem
+                translateZ={20}
+                as="a"
+                href={project.primaryCta.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e: MouseEvent) => e.stopPropagation()}
+                className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+              >
+                {project.primaryCta.label}
+              </CardItem>
+            ) : (
+              <span />
+            )}
+            {project.youtubeCta && (
+              <CardItem
+                translateZ={20}
+                as="a"
+                href={project.youtubeCta.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e: MouseEvent) => e.stopPropagation()}
+                className="px-4 py-2 rounded-xl cursor-pointer bg-red-600 hover:bg-red-700 text-white text-xs font-bold flex items-center gap-2"
+              >
+                <IconBrandYoutubeFilled size={18} />
+                Watch on YouTube
+              </CardItem>
+            )}
           </div>
-        </div>
-      </CardBody>
-    </CardContainer>
+          )}
+        </CardBody>
+      </CardContainer>
+    </div>
   );
 }
 
