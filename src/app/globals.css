@@ -136,3 +136,80 @@
     transform: translateX(-100%);
   }
 }
+
+/* ---------------- Premium CTA: spinning conic gradient border --------------- */
+
+@property --cta-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes cta-spin {
+  to {
+    --cta-angle: 360deg;
+  }
+}
+
+.cta-glow {
+  --cta-border: 1.5px;
+  position: relative;
+  isolation: isolate;
+  border-radius: 9999px;
+  /* Solid dark interior on the padding box, animated conic ring on the border box. */
+  background:
+    linear-gradient(#0a0a0c, #0a0a0c) padding-box,
+    conic-gradient(
+        from var(--cta-angle),
+        rgba(255, 255, 255, 0.08) 0deg,
+        #6366f1 70deg,
+        #a855f7 150deg,
+        #ec4899 210deg,
+        rgba(255, 255, 255, 0.08) 290deg,
+        rgba(255, 255, 255, 0.08) 360deg
+      )
+      border-box;
+  border: var(--cta-border) solid transparent;
+  animation: cta-spin 4s linear infinite;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.4s ease;
+}
+
+/* Blurred twin of the conic sitting behind the button. The opaque dark
+   interior covers the center, so only the edges spill out as a glow. */
+.cta-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--cta-angle),
+    transparent 0deg,
+    #6366f1 70deg,
+    #a855f7 150deg,
+    #ec4899 210deg,
+    transparent 290deg,
+    transparent 360deg
+  );
+  filter: blur(10px);
+  opacity: 0.5;
+  animation: cta-spin 4s linear infinite;
+  transition: opacity 0.4s ease;
+}
+
+.cta-glow:hover {
+  transform: scale(1.035);
+}
+
+.cta-glow:hover::before {
+  opacity: 0.95;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-glow,
+  .cta-glow::before {
+    animation: none;
+  }
+}

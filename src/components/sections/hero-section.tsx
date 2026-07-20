@@ -25,7 +25,7 @@ type Beat = {
 
 const BEATS: Beat[] = [
   {
-    label: "SCENE 01 · THE INTRO",
+    label: "LIGHTS · THE INTRO",
     headline: "Half dev, half vibe.",
     gradient: ["vibe."],
     sub: "I'm Gautam, aka iamvevaar. Creative Software Engineer: design in one hand, code in the other.",
@@ -33,15 +33,15 @@ const BEATS: Beat[] = [
     exit: [0.34, 0.4],
   },
   {
-    label: "SCENE 02 · THE PROOF",
+    label: "CAMERA · THE PROOF",
     headline: "I build things that pay rent.",
     gradient: ["pay", "rent."],
-    sub: "At Astrosure my microsites went from ₹5K to ₹2.5L a month, and 2,500 people talk to my chatbot every day. X-Fathom lives on the Chrome store.",
+    sub: "At AstroSure.ai my microsites went from ₹5K to ₹2.5L a month, and 2,500 people talk to my chatbot every day. X-Fathom lives on the Chrome store.",
     enter: [0.44, 0.6],
     exit: [0.64, 0.7],
   },
   {
-    label: "SCENE 03 · THE INVITE",
+    label: "ACTION · THE INVITE",
     headline: "Living proof you can debug and chill.",
     gradient: ["debug", "chill."],
     sub: "Keep scrolling for the long version. Or hit Let's Talk; I reply faster than my CI.",
@@ -115,6 +115,20 @@ function SceneBeat({
   const subOpacity = useTransform(progress, [subStart, enterEnd], [0, 1]);
   const subY = useTransform(progress, [subStart, enterEnd], [24, 0]);
 
+  // Only the invite beat (the one that never exits) gets the CTA. Its clicks
+  // are enabled only once the beat is actually on screen, so the invisible
+  // scene can't swallow clicks meant for the content below.
+  const isInvite = beat.exit === null;
+  const ctaPointer = useTransform(blockOpacity, (v) =>
+    v > 0.6 ? "auto" : "none"
+  );
+
+  const scrollToContact = () => {
+    document
+      .getElementById("join-list")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <motion.div
       style={{ opacity: blockOpacity, y: blockY }}
@@ -147,6 +161,23 @@ function SceneBeat({
       >
         {beat.sub}
       </motion.p>
+
+      {isInvite && (
+        <motion.button
+          type="button"
+          onClick={scrollToContact}
+          style={{ opacity: subOpacity, y: subY, pointerEvents: ctaPointer }}
+          className="cta-glow group mt-9 inline-flex items-center gap-2.5 px-8 py-3.5 text-sm font-medium tracking-wide text-white/90"
+        >
+          Say Hi To Me
+          <span
+            aria-hidden
+            className="text-white/50 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-white/90"
+          >
+            →
+          </span>
+        </motion.button>
+      )}
     </motion.div>
   );
 }
@@ -156,7 +187,6 @@ function SceneBeat({
 export function HeroSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [showScrollHint, setShowScrollHint] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const [pendingPlay, setPendingPlay] = useState(false);
   const audioFileName = getAudioFileName();
@@ -179,14 +209,6 @@ export function HeroSection() {
   const videoBright = useTransform(scrollYProgress, [0.04, 0.2], [1, 0.4]);
   const videoFilter = useMotionTemplate`blur(${videoBlur}px) brightness(${videoBright})`;
   const washOpacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowScrollHint(true);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   // Silently unlock audio on ANY user interaction
   useEffect(() => {
@@ -271,17 +293,6 @@ export function HeroSection() {
           style={{ opacity: scene1Opacity, y: scene1Y, pointerEvents: scene1Pointer }}
           className="absolute inset-0"
         >
-          {showScrollHint && (
-            <motion.img
-              src="/Scroll down hint.gif"
-              alt="Scroll down"
-              className="absolute bottom-8 left-1/2 -translate-x-1/2 h-16 w-16"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            />
-          )}
-
           {/* Audio easter egg lives and dies with scene 1 */}
           <FollowerPointerCard
             title={
