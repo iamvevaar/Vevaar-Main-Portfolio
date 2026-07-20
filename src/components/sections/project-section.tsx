@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState, type MouseEvent } from "react";
 import { motion } from "framer-motion";
-import { IconBrandYoutubeFilled } from "@tabler/icons-react";
+import { IconArrowUpRight, IconBrandYoutubeFilled } from "@tabler/icons-react";
 import { PointerHighlight } from "../ui/pointer-highlight";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { CLOUDFRONT_URL } from "@/lib/config";
@@ -27,7 +27,7 @@ const projects: Project[] = [
     image: `${CLOUDFRONT_URL}/lifeatgits.png`,
     imageAlt: "Life at GITS thumbnail",
     primaryCta: {
-      label: "Explore →",
+      label: "Explore",
       href: "https://lifeatgits.vevaar.com/",
     },
     secondaryCta: {
@@ -41,7 +41,7 @@ const projects: Project[] = [
     image: `${CLOUDFRONT_URL}/campusai.png`,
     imageAlt: "CampusAI thumbnail",
     primaryCta: {
-      label: "Try now →",
+      label: "Try now",
       href: "https://campusai.vevaar.com",
     },
     secondaryCta: {
@@ -55,7 +55,7 @@ const projects: Project[] = [
     image: `${CLOUDFRONT_URL}/ffmcpeg.png`,
     imageAlt: "New project thumbnail",
     primaryCta: {
-      label: "Try now →",
+      label: "Try now",
       href: "https://ffmcpeg.vevaar.com/#download",
     },
     secondaryCta: {
@@ -72,7 +72,7 @@ const projects: Project[] = [
     image: `${CLOUDFRONT_URL}/x-fathom.png`,
     imageAlt: "X-Fathom thumbnail",
     primaryCta: {
-      label: "Try now →",
+      label: "Try now",
       href: "https://chromewebstore.google.com/detail/x-fathom/ephnakeihcedogcajbfodoenjhangmhg",
     },
     secondaryCta: {
@@ -107,7 +107,7 @@ function ProjectCard({ project }: { project: Project }) {
       className="cursor-pointer rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/60"
     >
       <CardContainer className="inter-var">
-        <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
+        <CardBody className="shine-surface relative group/card w-auto sm:w-[30rem] h-auto rounded-xl p-6">
           <CardItem
             translateZ="50"
             className="text-xl font-bold text-neutral-600 dark:text-white"
@@ -140,9 +140,10 @@ function ProjectCard({ project }: { project: Project }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e: MouseEvent) => e.stopPropagation()}
-                className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+                className="shine-pill group/cta inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-white"
               >
                 {project.primaryCta.label}
+                <IconArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
               </CardItem>
             ) : (
               <span />
