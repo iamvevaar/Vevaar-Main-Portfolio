@@ -1,6 +1,7 @@
 "use client";
 
-import type { MouseEvent } from "react";
+import { useCallback, useEffect, useState, type MouseEvent } from "react";
+import { motion } from "framer-motion";
 import { IconBrandYoutubeFilled } from "@tabler/icons-react";
 import { PointerHighlight } from "../ui/pointer-highlight";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
@@ -18,8 +19,6 @@ type Project = {
   youtubeCta?: { href: string };
 };
 
-const PLACEHOLDER_IMAGE =
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
 const projects: Project[] = [
   {
@@ -170,6 +169,71 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
+// Mobile-only carousel: one card at a time, auto-sliding, swipeable, with dots.
+// Keeps the projects list compact on small screens; desktop keeps the grid.
+function ProjectCarousel({ projects }: { projects: Project[] }) {
+  const [index, setIndex] = useState(0);
+  const count = projects.length;
+
+  const goTo = useCallback(
+    (i: number) => setIndex(((i % count) + count) % count),
+    [count]
+  );
+  const next = useCallback(() => setIndex((p) => (p + 1) % count), [count]);
+
+  // Auto-advance; the interval resets whenever `index` changes (incl. manual nav).
+  useEffect(() => {
+    const id = setInterval(next, 4500);
+    return () => clearInterval(id);
+  }, [next, index]);
+
+  return (
+    <div className="mt-2 w-full overflow-hidden lg:hidden">
+      <motion.div
+        className="flex"
+        style={{ width: `${count * 100}%` }}
+        animate={{ x: `-${(index * 100) / count}%` }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.12}
+        onDragEnd={(_, info) => {
+          if (info.offset.x < -60) next();
+          else if (info.offset.x > 60) goTo(index - 1);
+        }}
+      >
+        {projects.map((project) => (
+          <div
+            key={project.title}
+            style={{ width: `${100 / count}%` }}
+            className="flex shrink-0 justify-center overflow-hidden px-2"
+          >
+            <ProjectCard project={project} />
+          </div>
+        ))}
+      </motion.div>
+
+      {/* Dots */}
+      <div className="mt-2 flex justify-center gap-2">
+        {projects.map((project, i) => (
+          <button
+            key={project.title}
+            type="button"
+            onClick={() => goTo(i)}
+            aria-label={`Go to ${project.title}`}
+            aria-current={i === index}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              i === index
+                ? "w-6 bg-purple-500"
+                : "w-2 bg-neutral-600 hover:bg-neutral-400"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function ProjectSection() {
   return (
     <div
@@ -192,11 +256,15 @@ export function ProjectSection() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 mt-4">
+      {/* Desktop: full grid */}
+      <div className="hidden lg:grid lg:grid-cols-2 gap-4 lg:gap-8 mt-4">
         {projects.map((project) => (
           <ProjectCard key={project.title} project={project} />
         ))}
       </div>
+
+      {/* Mobile: one card at a time, auto-sliding */}
+      <ProjectCarousel projects={projects} />
     </div>
   );
 }
