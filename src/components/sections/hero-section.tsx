@@ -11,6 +11,22 @@ import { FollowerPointerCard } from "../ui/following-pointer";
 import { getAudioFileName } from "@/lib/audioUtils";
 import { Spotlight } from "../ui/spotlight";
 import { CLOUDFRONT_URL } from "@/lib/config";
+import dynamic from "next/dynamic";
+import "@designcodeio/threeui/style.css";
+
+// Imported from the per-component entry, not the package root. The root barrel
+// re-exports every scene in the library, and one of them (temple-night) still
+// calls three's LinearEncoding, removed back in r155 — pulling the barrel in
+// fails the build outright on modern three. This path reaches only the 13
+// structure-flow variants, and keeps the rest of the library out of the bundle.
+// ssr:false because the renderers are WebGL-only.
+const StructureFlowCollection = dynamic(
+  () =>
+    import("@designcodeio/threeui/components/StructureFlowCollection").then(
+      (m) => m.StructureFlowCollection
+    ),
+  { ssr: false }
+);
 
 /* ----------------------------- scene copy ------------------------------ */
 
@@ -440,6 +456,26 @@ export function HeroSection() {
   return (
     <div ref={containerRef} className="relative h-[300vh] bg-black w-full">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* The room the hero sits in. First sibling and no z-index, so it paints
+            under the video, wash and beats; pointer-events-none so the step
+            scroll controller keeps every gesture (the scene is a sandboxed
+            iframe, and an iframe under the cursor would eat the wheel events).
+
+            The [&_iframe] rules are load-bearing: this variant renders an
+            iframe, but the package stylesheet only sizes `.threeui-background >
+            canvas`, so without them the frame collapses to the default 300x150
+            iframe box and crops to a hard edge. */}
+        <div
+          className="absolute inset-0 pointer-events-none [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:h-full [&_iframe]:w-full [&_iframe]:border-0"
+        >
+          <StructureFlowCollection
+            variant="nebula"
+            hue={0}
+            saturation={1.0}
+            brightness={1.0}
+          />
+        </div>
+
         <Spotlight
           className="-top-40 left-0 md:-top-20 md:left-60"
           fill="white"
@@ -454,7 +490,15 @@ export function HeroSection() {
               muted
               loop
               playsInline
-              style={{ scale: videoScale, filter: videoFilter }}
+              // The footage is a lit subject on pure black. Screen blending maps
+              // that black to fully transparent, so the nebula drifts around the
+              // figure and composites with the orb instead of being boxed out by
+              // a hard video rectangle.
+              style={{
+                scale: videoScale,
+                filter: videoFilter,
+                mixBlendMode: "screen",
+              }}
               className="h-full object-contain"
             />
           </div>
