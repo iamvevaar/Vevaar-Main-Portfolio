@@ -11,6 +11,7 @@ import {
   IconNewSection,
   IconNotebook,
   IconTerminal2,
+  IconUser,
 } from "@tabler/icons-react";
 
 export function Dock() {
@@ -40,6 +41,19 @@ export function Dock() {
       icon: <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: "#projects",
       onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleClick(e, "#projects"),
+    },
+    {
+      title: "About",
+      icon: (
+        <Link
+          href="/about"
+          prefetch={true}
+          className="h-full w-full flex items-center justify-center"
+        >
+          <IconUser className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        </Link>
+      ),
+      href: "/about",
     },
     {
       title: "Portfolio",

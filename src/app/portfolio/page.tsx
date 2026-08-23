@@ -4,6 +4,16 @@ import { CLOUDFRONT_URL } from "@/lib/config";
 import React from "react";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { Spotlight } from "@/components/ui/spotlight";
+import type { Metadata } from "next";
+
+// Held out of the index deliberately: this page still carries placeholder items.
+// Thin or borrowed content that gets indexed drags sitewide quality down, which
+// costs the pages that do rank. Flip both of these to true once it holds real
+// work, and add it back to sitemap.ts and robots.ts.
+export const metadata: Metadata = {
+  title: "Portfolio",
+  robots: { index: false, follow: true },
+};
 
 const PortfolioPage = () => {
   const portfolioItems = [

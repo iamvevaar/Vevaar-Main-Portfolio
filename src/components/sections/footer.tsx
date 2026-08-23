@@ -86,7 +86,7 @@ export function Footer() {
                   <IconBrandGithub size={24} />
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/iamvevaar/"
+                  href="https://www.linkedin.com/in/vevaar/"
                   target="blank"
                   className="text-gray-400 hover:text-white"
                 >
@@ -100,7 +100,7 @@ export function Footer() {
                   <IconBrandInstagram size={24} />
                 </a>
                 <a
-                  href="https://x.com/iamvevaar"
+                  href="https://x.com/gautammsuthar"
                   target="blank"
                   className="text-gray-400 hover:text-white"
                 >

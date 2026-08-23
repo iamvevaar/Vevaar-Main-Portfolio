@@ -46,6 +46,12 @@ export function getPostAgentSource(slug: string): string | null {
   return fs.readFileSync(file, "utf-8");
 }
 
+// Not every post ships an agent companion, so callers that advertise them
+// publicly (the ARD catalog, sitemaps) must filter rather than assume.
+export function hasAgentSource(slug: string): boolean {
+  return fs.existsSync(path.join(BLOG_DIR, `${slug}.agent.md`));
+}
+
 export function getAllSlugs(): string[] {
   if (!fs.existsSync(BLOG_DIR)) return [];
   return fs

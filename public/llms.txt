@@ -1,0 +1,55 @@
+# Vevaar — Gautam (iamvevaar)
+
+> Creative Software Engineer and Full Stack Engineer at AstroSure, based in
+> Chennai, India. Designer and frontend developer hybrid who is comfortable
+> across the backend. Builds in public, ships side products, and writes
+> engineering notes with working code.
+
+Also known as: Vevaar, iamvevaar, वेवार.
+
+## Who he is
+
+- **Current role:** Full Stack Engineer at AstroSure (Chennai, since June 2024).
+  Built revenue-generating microsites and the Agastya chatbot, which serves
+  2,500+ daily active users. Work spans payments (Razorpay), rate limiting,
+  influencer onboarding, and CI/CD.
+- **Self-described title:** Creative Software Engineer — design in one hand,
+  code in the other.
+- **Previously:** Jr. Software Developer at Value At Void (Dubai, HireHive);
+  Frontend Intern at Flooid (Bengaluru, HerKey React to Next.js migration).
+- **Works in:** React, Next.js, TypeScript, Tailwind CSS, Three.js, design
+  engineering, developer experience, technical writing.
+
+## Products
+
+- [FFmcpeg](https://ffmcpeg.vevaar.com/): A GUI-based MCP for FFmpeg. All of
+  FFmpeg's power for video work, without writing a single command. Source at
+  [github.com/iamvevaar/FFmcpeg](https://github.com/iamvevaar/FFmcpeg), and a
+  [demo](https://youtu.be/Be9bmZHEjhw).
+- [Life at GITS](https://lifeatgits.vevaar.com/): An interactive infinite canvas
+  of life at GITS. Pan, zoom, and fly through it.
+- [CampusAI](https://campusai.vevaar.com/): Currently building. An AI senior that
+  knows your university, your syllabus, and your deadlines.
+- [X-Fathom](https://x-fathom.vevaar.com/): Chrome extension for an enhanced,
+  immersive Fathom experience. Live on the
+  [Chrome Web Store](https://chromewebstore.google.com/detail/x-fathom/ephnakeihcedogcajbfodoenjhangmhg).
+
+## Writing
+
+Build-in-public engineering notes. Each post ships with a plain-markdown
+companion for agents and LLMs.
+
+- [Blog index](https://www.vevaar.com/blog)
+- [Putting Claude Code under a self-hosted SigNoz microscope](https://www.vevaar.com/blog/claude-code-signoz-dashboard):
+  Claude Code emits OpenTelemetry; point it at a local SigNoz container for a
+  private dashboard of every token, tool call, and quota tick.
+- [The free contact form backend hiding in your Google account](https://www.vevaar.com/blog/free-contact-form-google-sheets)
+- [Skyvern, the AI browser agent](https://www.vevaar.com/blog/skyvern-ai-browser-agent)
+- [Scaffolding an MDX blog](https://www.vevaar.com/blog/scaffolding-mdx-blog)
+
+## Contact
+
+- Email: iamvevaar@gmail.com
+- GitHub: https://github.com/iamvevaar
+- LinkedIn: https://www.linkedin.com/in/vevaar/
+- X: https://x.com/gautammsuthar

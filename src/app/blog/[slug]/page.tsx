@@ -8,6 +8,7 @@ import { mdxComponents } from "@/components/blog/mdx-components";
 import { CopyMarkdown } from "@/components/blog/CopyMarkdown";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import { Spotlight } from "@/components/ui/spotlight";
+import { SITE, SOCIALS } from "@/lib/site";
 
 type Frontmatter = {
   title: string;
@@ -34,8 +35,27 @@ export async function generateMetadata({
     options: { parseFrontmatter: true },
   });
   return {
-    title: `${frontmatter.title} | Vevaar Blog`,
+    title: frontmatter.title,
     description: frontmatter.description,
+    alternates: { canonical: `/blog/${slug}` },
+    authors: [{ name: SITE.personName, url: SITE.url }],
+    keywords: frontmatter.tags,
+    openGraph: {
+      type: "article",
+      url: `${SITE.url}/blog/${slug}`,
+      siteName: SITE.name,
+      title: frontmatter.title,
+      description: frontmatter.description,
+      publishedTime: frontmatter.date,
+      authors: [SITE.url],
+      tags: frontmatter.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: frontmatter.title,
+      description: frontmatter.description,
+      creator: `@${SITE.xHandle}`,
+    },
   };
 }
 
@@ -56,8 +76,37 @@ export default async function BlogPost({
     options: { parseFrontmatter: true },
   });
 
+  // BlogPosting tied by @id back to the Person in the root layout, so a crawler
+  // reads "this post was written by that entity" rather than meeting a fresh
+  // unknown author on every URL.
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${SITE.url}/blog/${slug}#post`,
+    headline: frontmatter.title,
+    description: frontmatter.description,
+    datePublished: frontmatter.date,
+    dateModified: frontmatter.date,
+    keywords: frontmatter.tags,
+    inLanguage: "en",
+    mainEntityOfPage: `${SITE.url}/blog/${slug}`,
+    author: {
+      "@type": "Person",
+      "@id": `${SITE.url}/#person`,
+      name: SITE.personName,
+      url: SITE.url,
+      sameAs: [...SOCIALS],
+    },
+    publisher: { "@id": `${SITE.url}/#person` },
+  };
+
   return (
     <div className="relative min-h-screen bg-black text-white overflow-hidden">
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <ReadingProgress />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-screen overflow-hidden">
         <Spotlight
