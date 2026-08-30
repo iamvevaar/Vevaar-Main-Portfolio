@@ -104,9 +104,8 @@
 
 
 @layer base {
-  html {
-    @apply scroll-smooth;
-  }
+  /* No scroll-smooth here: <SmoothScroll /> (Lenis) owns the scroll
+     position, and CSS smooth scrolling fights it for the same property. */
   * {
     @apply border-border outline-ring/50;
   }

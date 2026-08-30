@@ -11,6 +11,7 @@ import { FollowerPointerCard } from "../ui/following-pointer";
 import { getAudioFileName } from "@/lib/audioUtils";
 import { Spotlight } from "../ui/spotlight";
 import { CLOUDFRONT_URL } from "@/lib/config";
+import { scrollToId } from "@/lib/lenis";
 import dynamic from "next/dynamic";
 import "@designcodeio/threeui/style.css";
 
@@ -79,6 +80,12 @@ function renderSub(
   );
 }
 
+// Progress budget. The container gives the hero 500vh of scroll range (600vh
+// tall, minus the 100vh sticky pane), so 0.01 of progress == 5vh of scrolling.
+// Each beat gets roughly a third, split as: enter 0.10 (~50vh of word stagger),
+// hold ~0.14 (~70vh where the text just sits and can be read), exit 0.06, then a
+// 0.04 gap before the next one. The hold is the number that matters -- it used
+// to be 0.04 over a 200vh range, i.e. 8vh, which is why the beats flashed past.
 const BEATS: Beat[] = [
   {
     label: "LIGHTS · THE INTRO",
@@ -86,15 +93,15 @@ const BEATS: Beat[] = [
     gradient: ["vibe."],
     sub: "I'm Gautam, aka iamvevaar. Creative Software Engineer: design in one hand, code in the other.",
     subHighlight: "iamvevaar",
-    enter: [0.14, 0.3],
-    exit: [0.34, 0.4],
+    enter: [0.06, 0.16],
+    exit: [0.3, 0.36],
   },
   {
     label: "CAMERA · THE PROOF",
     headline: "I build things that pay rent.",
     gradient: ["pay", "rent."],
     sub: "At AstroSure.ai my microsites went from ₹5K to ₹2.5L a month, and 2,500 people talk to my chatbot every day. X-Fathom lives on the Chrome store.",
-    enter: [0.44, 0.6],
+    enter: [0.4, 0.5],
     exit: [0.64, 0.7],
   },
   {
@@ -102,7 +109,7 @@ const BEATS: Beat[] = [
     headline: "Living proof you can debug and chill.",
     gradient: ["debug", "chill."],
     sub: "Keep scrolling for the long version. Or hit Let's Talk; I reply faster than my CI.",
-    enter: [0.74, 0.9],
+    enter: [0.74, 0.84],
     exit: null,
   },
 ];
@@ -185,11 +192,7 @@ function SceneBeat({
     v > 0.6 ? "auto" : "none"
   );
 
-  const scrollToContact = () => {
-    document
-      .getElementById("join-list")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const scrollToContact = () => scrollToId("join-list");
 
   return (
     <motion.div
@@ -272,131 +275,11 @@ export function HeroSection() {
   const videoFilter = useMotionTemplate`blur(${videoBlur}px) brightness(${videoBright})`;
   const washOpacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
 
-  // --- Step controller -----------------------------------------------------
-  // Instead of scrubbing the animation to raw scroll, each scroll gesture snaps
-  // the window between fixed progress "steps", so one flick = one beat and a
-  // fast scroll can't blow past everything. Past the last step it releases to
-  // the page below; before the first it releases upward. Reuses every existing
-  // scroll-bound animation — we just drive the scroll position ourselves.
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    // progress targets: landing -> intro(white) -> iamvevaar fills -> camera -> action
-    const STEPS = [0, 0.3, 0.34, 0.6, 1];
-    const MAX = STEPS.length - 1;
-    const DURATION = 750;
-
-    const range = () => Math.max(1, container.offsetHeight - window.innerHeight);
-    const stepY = (i: number) => container.offsetTop + STEPS[i] * range();
-    const nearestStep = () => {
-      const y = window.scrollY;
-      let best = 0;
-      let bestD = Infinity;
-      STEPS.forEach((_, i) => {
-        const d = Math.abs(y - stepY(i));
-        if (d < bestD) {
-          bestD = d;
-          best = i;
-        }
-      });
-      return best;
-    };
-
-    let step = nearestStep();
-    let cooldownUntil = 0;
-    let raf = 0;
-
-    const animateTo = (targetY: number) => {
-      cancelAnimationFrame(raf);
-      const startY = window.scrollY;
-      const dist = targetY - startY;
-      const t0 = performance.now();
-      cooldownUntil = t0 + DURATION + 150;
-      const html = document.documentElement;
-      const prevBehavior = html.style.scrollBehavior;
-      html.style.scrollBehavior = "auto"; // don't let CSS smooth fight us
-      const ease = (t: number) =>
-        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      const frame = (now: number) => {
-        const t = Math.min((now - t0) / DURATION, 1);
-        window.scrollTo(0, startY + dist * ease(t));
-        if (t < 1) raf = requestAnimationFrame(frame);
-        else html.style.scrollBehavior = prevBehavior;
-      };
-      raf = requestAnimationFrame(frame);
-    };
-
-    // Advance/retreat a step. Returns true if we consumed the gesture.
-    const go = (dir: number) => {
-      if (dir > 0 && step < MAX) {
-        step += 1;
-        animateTo(stepY(step));
-        return true;
-      }
-      if (dir < 0 && step > 0) {
-        step -= 1;
-        animateTo(stepY(step));
-        return true;
-      }
-      return false; // at an edge -> release to native scroll
-    };
-
-    const insideHero = () => {
-      const y = window.scrollY;
-      return y >= container.offsetTop - 4 && y <= stepY(MAX) + 4;
-    };
-
-    const onWheel = (e: WheelEvent) => {
-      if (!insideHero()) {
-        if (performance.now() > cooldownUntil) step = nearestStep();
-        return;
-      }
-      if (performance.now() < cooldownUntil) {
-        e.preventDefault();
-        return;
-      }
-      const dir = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0;
-      if (dir === 0) return;
-      if (go(dir)) e.preventDefault();
-    };
-
-    let touchStartY = 0;
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-    const onTouchMove = (e: TouchEvent) => {
-      if (!insideHero()) return; // outside the hero -> native scroll
-      const dy = touchStartY - e.touches[0].clientY; // >0 = swipe up (go to next)
-      // At a releasing edge, let native scroll through so the page can continue:
-      // last step swiping down-the-page, or first step swiping up.
-      if ((step >= MAX && dy > 0) || (step <= 0 && dy < 0)) return;
-      e.preventDefault(); // otherwise hold the page and step on release
-    };
-    const onTouchEnd = (e: TouchEvent) => {
-      if (!insideHero()) {
-        step = nearestStep();
-        return;
-      }
-      if (performance.now() < cooldownUntil) return;
-      const dy = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(dy) < 30) return;
-      go(dy > 0 ? 1 : -1);
-    };
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: false });
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    window.addEventListener("touchend", onTouchEnd, { passive: false });
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onTouchEnd);
-    };
-  }, []);
+  // The scene beats above are scrubbed straight off scrollYProgress. Lenis
+  // (see <SmoothScroll />) owns the scroll position for the whole page, so
+  // the hero no longer runs a controller of its own -- a second engine
+  // calling window.scrollTo from its own rAF loop would fight Lenis for the
+  // same property every frame.
 
   // Silently unlock audio on ANY user interaction
   useEffect(() => {
@@ -454,12 +337,12 @@ export function HeroSection() {
   };
 
   return (
-    <div ref={containerRef} className="relative h-[300vh] bg-black w-full">
+    <div ref={containerRef} className="relative h-[450vh] md:h-[600vh] bg-black w-full">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* The room the hero sits in. First sibling and no z-index, so it paints
-            under the video, wash and beats; pointer-events-none so the step
-            scroll controller keeps every gesture (the scene is a sandboxed
-            iframe, and an iframe under the cursor would eat the wheel events).
+            under the video, wash and beats; pointer-events-none so Lenis keeps
+            every gesture (the scene is a sandboxed iframe, and an iframe under
+            the cursor would eat the wheel events before Lenis sees them).
 
             The [&_iframe] rules are load-bearing: this variant renders an
             iframe, but the package stylesheet only sizes `.threeui-background >

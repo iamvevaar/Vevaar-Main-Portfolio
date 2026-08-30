@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { Preloader } from "@/components/ui/preloader";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import { CLOUDFRONT_URL } from "@/lib/config";
 import { SITE, SOCIALS, JOB_TITLES, KNOWS_ABOUT } from "@/lib/site";
 
@@ -162,6 +163,7 @@ export default function RootLayout({
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
         />
+        <SmoothScroll />
         <Preloader />
         {children}
         <Analytics />

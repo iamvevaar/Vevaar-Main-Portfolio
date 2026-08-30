@@ -13,17 +13,22 @@ import {
   IconTerminal2,
   IconUser,
 } from "@tabler/icons-react";
+import { getLenis } from "@/lib/lenis";
 
 export function Dock() {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
+    // Route through Lenis when it's running so the jump eases on the same
+    // engine as the wheel. Native smooth scroll is the reduced-motion fallback.
+    const lenis = getLenis();
     if (href === "#") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (lenis) lenis.scrollTo(0);
+      else window.scrollTo({ top: 0, behavior: "smooth" });
     } else if (href.startsWith("#")) {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+      const element = document.querySelector<HTMLElement>(href);
+      if (!element) return;
+      if (lenis) lenis.scrollTo(element);
+      else element.scrollIntoView({ behavior: "smooth" });
     } else {
       window.open(href, "_blank");
     }
