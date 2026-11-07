@@ -11,18 +11,24 @@ import { CLOUDFRONT_URL } from "@/lib/config";
 export const metadata: Metadata = {
   title: "About Gautam (Vevaar)",
   description:
-    "Gautam, known online as Vevaar or iamvevaar, is a Creative Software Engineer and Full Stack Engineer at AstroSure.ai in Chennai, India. He builds FFmcpeg, Life at GITS, CampusAI, and X-Fathom, and writes build-in-public engineering notes.",
+    "Gautam, known online as Vevaar or iamvevaar, is a Creative Software Engineer and Full Stack Engineer at AstroSure.ai in Chennai, India. He builds Vits (a free Android video editor), FFmcpeg, Life at GITS, CampusAI, and X-Fathom, and writes build-in-public engineering notes.",
   alternates: { canonical: "/about" },
   openGraph: {
     type: "profile",
     url: `${SITE.url}/about`,
     title: "About Gautam (Vevaar) — Creative Software Engineer",
     description:
-      "Creative Software Engineer and Full Stack Engineer at AstroSure.ai, Chennai. Builder of FFmcpeg, Life at GITS, CampusAI, and X-Fathom.",
+      "Creative Software Engineer and Full Stack Engineer at AstroSure.ai, Chennai. Builder of Vits, FFmcpeg, Life at GITS, CampusAI, and X-Fathom.",
   },
 };
 
 const PRODUCTS = [
+  {
+    name: "Vits",
+    href: "https://vits.vevaar.com/",
+    what: "A free video editor for Android, made in India. 111 transitions, 123 effects, keyframes, green screen and text in 8 Indian languages. Offline, no sign-in, no watermark, about 4 MB.",
+    extra: { label: "Google Play", href: "https://play.google.com/store/apps/details?id=com.vits.app" },
+  },
   {
     name: "FFmcpeg",
     href: "https://ffmcpeg.vevaar.com/",

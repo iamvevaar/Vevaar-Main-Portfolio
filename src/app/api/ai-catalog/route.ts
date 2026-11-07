@@ -77,6 +77,24 @@ export async function GET() {
         metadata: { canonical: `${HOST}/blog/${post.slug}` },
       })),
       {
+        identifier: `urn:air:vevaar.com:tool:vits`,
+        displayName: "Vits",
+        type: "text/html",
+        url: "https://vits.vevaar.com/",
+        description:
+          "Vits is a free video editor for Android, made in India: 111 transitions, 123 effects, 68 sound effects, keyframes, green screen and letter-by-letter text in 8 Indian languages. Works offline, no sign-in, no watermark, about 4 MB. A mobile app, not an agent-invocable endpoint.",
+        tags: ["android", "video-editor", "mobile-app", "made-in-india", "product"],
+        representativeQueries: [
+          "Vits video editor",
+          "free video editor for Android without watermark",
+          "small video editing app for low RAM phones",
+          "offline video editor in Hindi",
+        ],
+        metadata: {
+          googlePlay: "https://play.google.com/store/apps/details?id=com.vits.app",
+        },
+      },
+      {
         identifier: `urn:air:vevaar.com:tool:ffmcpeg`,
         displayName: "FFmcpeg",
         // Typed as its landing page rather than application/mcp-server+json:

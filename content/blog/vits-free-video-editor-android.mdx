@@ -1,0 +1,147 @@
+---
+title: "Vits: A Free Android Video Editor With No Watermark, Made to Fit in 4 MB"
+description: "Vits is a full video editor for Android, made in India: 111 transitions, 123 effects, keyframes, green screen and letter-by-letter text in 8 Indian languages. It works offline, needs no sign-in, never watermarks your export, and runs on 3-4 GB RAM phones."
+date: "2026-11-07"
+readingTime: "8 min read"
+tags: ["Vits", "Video Editor", "Android", "Made in India", "Build in Public"]
+---
+
+A video editor on your phone has one job: turn your footage into something you want to post. Most of them take on a second job, which is putting their logo on your Reel.
+
+I built one that doesn't. It's called **Vits**, it's free, and the whole thing is about 4 MB to download from Google Play.
+
+This post is the one I wish I'd read the week I tried to edit a 30 second Reel on a borrowed ₹12,000 phone and watched the preview stutter, ask me to log in, and then offer to remove the watermark for a monthly fee.
+
+## Vits in one paragraph
+
+**Vits is a free video editor for Android, made in India.** It has a multi-track timeline, 111 transitions, 123 video effects, 68 sound effects, 72 text animations, keyframes on everything, green screen, speed curves and optical-flow slow motion. It edits, previews and exports entirely on the phone, so it works offline and never uploads your footage. There is no sign-in, no ads in the editor, and no watermark on any export at any setting. The app speaks English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati and Kannada, and it is built to run on the 3-4 GB RAM phones most people in India actually own.
+
+<StatCounter value="111" label="transitions" />
+<StatCounter value="123" label="video effects" />
+<StatCounter value="72" label="text animations" />
+<StatCounter value="68" label="sound effects" />
+<StatCounter value="8" label="languages" />
+<StatCounter value="0" label="watermarks" />
+
+Website: [vits.vevaar.com](https://vits.vevaar.com). Download: [Vits on Google Play](https://play.google.com/store/apps/details?id=com.vits.app).
+
+## The list it was built against
+
+Before writing a single feature I wrote down what people say about the editors already on their phones. It reads like a group chat:
+
+- "It lags on my phone."
+- "The good transitions are paid."
+- "It puts its logo on my video."
+- "Why does a video editor need my email?"
+- "Hindi text breaks when I animate it."
+
+Every one of those became a rule, and the rules turned into the only marketing line Vits really needs:
+
+<VitsNoList />
+
+None of these are a free trial or a launch promo. Every transition, effect, sound effect and text animation in Vits is free, including the ones labelled premium, and exports carry nothing but your own name.
+
+## What you can actually do with it
+
+Vits is a timeline editor, not a template machine. If you have used a desktop editor, the vocabulary will feel familiar: playhead, trim, keyframe, grade.
+
+**Cutting.** A timeline with a fixed centre playhead, pinch to zoom and flick to glide. Drag a clip's edge to trim, and if you hold at the screen's edge it keeps scrolling with you. Split, duplicate, reorder with a long press, replace a clip while choosing which part of the new footage plays. Photos and videos sit on the same track. Canvas goes to 9:16 for Reels and Shorts, square, 4:5 or 16:9, with a blurred or solid background. Undo and redo cover everything.
+
+**Speed.** 0.1× to 100× on a log slider, plus speed curves (Montage, Hero, Bullet, Jump Cut, Flash In, Flash Out, or draw your own). Freeze frame, reverse, and stabilisation in three strengths: Smooth, Steady and Locked.
+
+**Transitions.** 111 of them across 9 categories, from a clean dissolve to fire with embers, glass prism, chrome melt and infinite zoom. Each one takes a duration from 0.1 to 2 seconds, an easing, a direction and optional motion blur. Apply to all, or let it pick at random.
+
+**Layers.** Videos, photos, solid colours and gradients over your main video, with all 16 blend modes, masks (linear, mirror, circle, rectangle, heart, star) and rounded corners that keyframe, so a square overlay can melt into a pill mid-shot. Adjustment layers grade everything underneath for a stretch of time.
+
+**Green screen.** Chroma key that finds the screen colour on its own and was tuned against a ground truth that includes hair, motion blur, shadows and glass.
+
+**Keyframes.** Position, size, rotation, opacity, volume, colour, mask, glow and corners all keyframe. Ten curve presets, or open the graph and pull two Bézier handles into your own curve.
+
+**Colour.** Exposure through vignette, eight HSL bands plus any colour you pick from the frame with an eyedropper, a proper glow with scattering and threshold range, and HDR phone footage (PQ and HLG, 10-bit) tone-mapped correctly.
+
+**Effects.** 123 video effects in 11 groups: glitch, retro film, lens, light, comic, party and more. Drop one on a clip, an overlay or the whole video. Beat effects find the beats in your song and pulse with them.
+
+**Sound.** Music, voice-over and audio pulled out of a video. Fades, keyframed volume to duck under speech, one-tap noise reduction, a 5-band EQ and Match Loudness to −16 LUFS across every clip. A voice changer with 13 voices (Chipmunk, Robot, Monster, Telephone, Underwater and friends) that keeps the clip's length.
+
+**Export.** 720p or 1080p, 24 or 30 fps, HEVC for files about a third smaller, a WhatsApp Status preset that lands 720p under 16 MB, or audio only as M4A. Export keeps running in the background with a notification, and preview and export use the same renderer, so what you see is what you get.
+
+## Built for the phone you already have
+
+Most editors are designed on flagship phones and tested on them too. Vits went the other way.
+
+On first launch it measures the phone. It opens video decoders until the hardware refuses, works out a tier, and plans around it: how many clips can decode at once, when to make a lighter preview copy of a heavy clip, how much GPU memory it is allowed to hold. On a 3-4 GB phone the preview gets lighter while it plays. The export never does. Every export reads your original footage at full quality.
+
+The size is the other half. The first release installed at 3.6 MB, and the download from Play is still about 4 MB, roughly one photo.
+
+<Callout variant="tip">
+**The 68 sound effects are not in the download.** Whooshes, risers, booms, clicks, a cash register ka-ching, cartoon whistles: every one is synthesised by code inside the app the moment you tap it. No recordings ship with Vits, which is a big part of how it stays at 4 MB.
+</Callout>
+
+## Hindi text that stays in one piece
+
+Animate Hindi letter by letter in most editors and something ugly happens. A conjunct like क्ष or स्त्र is one visual letter made of several Unicode characters, and an editor that animates characters one at a time tears it apart mid-animation.
+
+Vits animates by what you actually see. क्ष stays क्ष, through all 72 text animations: fire, smoke, a pen that writes the line out by hand, gold shine, neon, glass that refracts the video behind it. Every moving letter gets automatic motion blur.
+
+Two text features grew out of that work:
+
+- **Word styles.** Give one word its own colour, font, size, outline or highlighter: "Hi, my name is **Rupali**".
+- **Lyric stack.** Type the lyrics and they arrive word by word in short centred lines. Play the song and tap as each word lands to sync it. It works in Hindi too.
+
+The app itself switches between all eight languages from inside the settings, in their own scripts: English, हिन्दी, বাংলা, मराठी, తెలుగు, தமிழ், ગુજરાતી, ಕನ್ನಡ.
+
+## Hand the whole project to another editor
+
+This is the feature I didn't plan and now use the most. A Vits project can be shared as a single `.vits` file that carries every cut, keyframe and effect along with the full original footage. Send it over WhatsApp, Drive or email, and another editor opens it in Vits exactly as you left it. Because the footage travels whole, they can still drag a trim back out to reveal frames you cut.
+
+For anyone editing for clients between shoots, that replaces the "send me the raw files and tell me what you did" dance with one attachment.
+
+## Under the hood, for the curious
+
+Vits is native Android, Kotlin plus OpenGL ES. Video decodes in hardware straight into GPU textures and pixels never come back to the CPU, which is the main reason a cheap phone can keep up. Preview and export run the exact same frame path, so a transition can't look one way in the editor and another way in the file.
+
+Slow motion was where I spent the most nights. Slowing a 30 fps clip to 0.5× means inventing frames the camera never shot. Vits does it with optical flow written in shaders: it estimates how every pixel moves between two real frames, then builds the in-between frame from that motion instead of blending the two. To check it isn't just pretty, a bench renders a 60 fps clip with known motion, feeds Vits every other frame, and compares what it invents against the real frames it never saw:
+
+<VitsSlowMoBench />
+
+That same habit runs through the whole app. Every engine change is measured: 25+ automated checks against FFmpeg cover audio sync, text, crop, reverse, HDR, blend modes, chroma key accuracy, effects and more. Nothing ships on vibes.
+
+From the first commit on 3 October 2026 to version 0.81 today is a little over five weeks and 209 commits. It is one person's app, and it is updated through Google Play in-app updates, so fixes reach you without a hunt.
+
+## Questions people ask about Vits
+
+### Is Vits really free?
+
+Yes. Every transition, effect, sound effect and text animation is free, including the premium ones. There is no account to create and no watermark on exports.
+
+### Does Vits add a watermark?
+
+No. Not on any export, at any resolution or setting.
+
+### Can I edit videos offline with Vits?
+
+Yes. Editing, preview and export all happen on your phone and never need the internet. Your footage is never uploaded. The app sends only anonymous usage counts and crash reports, and you can switch those off.
+
+### Will Vits run on a low-RAM phone?
+
+It is built for them. Vits measures the phone on first launch and adapts, so it runs on 3-4 GB RAM phones with a lighter preview while playing. Exports are always full quality. It needs Android 8.0 or newer.
+
+### Which Indian languages does Vits support?
+
+English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati and Kannada, switchable inside the app. Letter-by-letter text animation keeps Indian conjuncts whole.
+
+### Is Vits good for Instagram Reels and YouTube Shorts?
+
+Set a 9:16 canvas, cut on the timeline, add transitions and beat-synced effects, animate text or sync lyrics to the song, then export in 1080p or a WhatsApp Status size.
+
+### Who makes Vits?
+
+Vits is made in India by Gautam Suthar (Vevaar), for creators who edit on everyday Android phones.
+
+## Your next edit starts at 00:00
+
+If you edit on your phone, give it one Reel. Open it, skip the sign-in that isn't there, and see whether the preview keeps up on your phone. That's the test I care about most.
+
+[Get Vits on Google Play](https://play.google.com/store/apps/details?id=com.vits.app) · [vits.vevaar.com](https://vits.vevaar.com)
+
+If something breaks or feels slow on your phone, tell me which phone. Send the model name to iamvevaar@gmail.com.

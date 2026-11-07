@@ -22,6 +22,10 @@ Also known as: Vevaar, iamvevaar, वेवार.
 
 ## Products
 
+- [Vits](https://vits.vevaar.com/): A free video editor for Android, made in
+  India. 111 transitions, 123 effects, 68 sound effects, keyframes, green screen
+  and letter-by-letter text in 8 Indian languages. Works offline, no sign-in, no
+  watermark, about 4 MB. On [Google Play](https://play.google.com/store/apps/details?id=com.vits.app).
 - [FFmcpeg](https://ffmcpeg.vevaar.com/): A GUI-based MCP for FFmpeg. All of
   FFmpeg's power for video work, without writing a single command. Source at
   [github.com/iamvevaar/FFmcpeg](https://github.com/iamvevaar/FFmcpeg), and a
@@ -40,6 +44,8 @@ Build-in-public engineering notes. Each post ships with a plain-markdown
 companion for agents and LLMs.
 
 - [Blog index](https://www.vevaar.com/blog)
+- [Vits: a free Android video editor with no watermark](https://www.vevaar.com/blog/vits-free-video-editor-android):
+  What Vits does, how it runs on 3-4 GB phones, and how its slow motion is measured.
 - [Putting Claude Code under a self-hosted SigNoz microscope](https://www.vevaar.com/blog/claude-code-signoz-dashboard):
   Claude Code emits OpenTelemetry; point it at a local SigNoz container for a
   private dashboard of every token, tool call, and quota tick.

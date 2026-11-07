@@ -10,6 +10,8 @@ import { DashboardPreview } from "./infographics/DashboardPreview";
 import { SigNozInstallSteps } from "./infographics/SigNozInstallSteps";
 import { SkyvernAgentLoop } from "./infographics/SkyvernAgentLoop";
 import { AutomationShowdown } from "./infographics/AutomationShowdown";
+import { VitsNoList } from "./infographics/VitsNoList";
+import { VitsSlowMoBench } from "./infographics/VitsSlowMoBench";
 import { CodeBlock } from "./CodeBlock";
 
 export const mdxComponents = {
@@ -87,4 +89,6 @@ export const mdxComponents = {
   SigNozInstallSteps,
   SkyvernAgentLoop,
   AutomationShowdown,
+  VitsNoList,
+  VitsSlowMoBench,
 };
