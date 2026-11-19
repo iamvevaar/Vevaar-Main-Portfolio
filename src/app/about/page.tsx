@@ -26,7 +26,7 @@ const PRODUCTS = [
   {
     name: "Vits",
     href: "https://vits.vevaar.com/",
-    what: "A free video editor for Android, made in India. 111 transitions, 123 effects, keyframes, green screen, camera tracking and text in 8 Indian languages. Offline, no sign-in, no watermark, about 4 MB.",
+    what: "A free video editor for Android, made in India. 111 transitions, 123 effects, keyframes, green screen, camera tracking and text in 8 Indian languages. Offline, no sign-in, no watermark, under 10 MB.",
     extra: { label: "Google Play", href: "https://play.google.com/store/apps/details?id=com.vits.app" },
   },
   {
