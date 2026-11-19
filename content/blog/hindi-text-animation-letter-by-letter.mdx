@@ -1,0 +1,111 @@
+---
+title: "Why Hindi Text Breaks When You Animate It Letter by Letter (and How Vits Keeps क्ष Whole)"
+description: "Most video editors cut Hindi into Unicode characters, so a letter-by-letter animation tears conjuncts like क्ष and स्त्र apart. Here is why it happens, the Unicode rule most phones are missing, and how the Vits video editor for Android animates Hindi and other Indian scripts without breaking a single letter."
+date: "2026-11-20"
+readingTime: "7 min read"
+tags: ["Vits", "Hindi", "Text Animation", "Unicode", "Android"]
+---
+
+Type नमस्ते into a phone video editor, pick a letter-by-letter animation, and press play. न arrives. म arrives. Then स shows up alone with a little slash hanging off it, and a vowel sign floats in a beat later with nothing to hold on to.
+
+For a split second your greeting is spelled wrong, in front of everyone who watches the Reel.
+
+This post is the one I wish I'd read before I shipped the first version of text animation in [Vits](https://vits.vevaar.com), my video editor for Android. It explains why Hindi breaks, what the fix is, and why the fix is only half the job.
+
+## A Hindi letter is not one character
+
+To a computer, नमस्ते is six Unicode characters:
+
+- न (na)
+- म (ma)
+- स (sa)
+- ् (the virama, the sign that kills the vowel)
+- त (ta)
+- े (the vowel sign e)
+
+A Hindi reader sees three letters: न, म and स्ते. The virama glues स to त into the conjunct स्त, and the vowel sign sits on top of the pair. That combined shape is one letter in the reader's eye, even though it took four characters to type.
+
+An animation that moves "one character at a time" therefore animates things that are not letters at all. Here is the same word cut three ways:
+
+<GraphemeSplit />
+
+The first row is what you get from code that walks the string character by character. The middle row is what you get from the standard "grapheme cluster" rules that most phones ship today, which already know that a vowel sign belongs to the consonant before it. They still split स् from ते, so the half letter flies in on its own.
+
+Only the last row matches how the word is read.
+
+## The rule most phones are missing
+
+The Unicode standard fixed this in version 15.1, released in September 2023. It added a rule (GB9c in the text segmentation spec) that says consonants joined by a virama form one cluster. With it, क्ष, स्त्र and a reph like र्क each count as one letter.
+
+The catch is that a phone's text segmentation comes from the ICU library baked into its Android version, and the phones most people in India actually use shipped before that rule existed. Ask the system where the letters are and it gives you the middle row.
+
+So Vits does it by hand. The whole splitter is about 80 lines of Kotlin, and the part that matters is one condition:
+
+```kotlin
+// a consonant right after a virama joins the cluster before it
+prev in VIRAMAS && Character.isLetter(cp) -> true
+```
+
+`VIRAMAS` holds the virama of eight scripts: Devanagari, Bengali, Gurmukhi, Gujarati, Oriya, Telugu, Kannada and Malayalam. The rest of the file handles the usual cases, like vowel signs, zero-width joiners, emoji skin tones and flag pairs, so they stay attached to their base too.
+
+<Callout variant="info">
+**Tamil is the exception.** In Tamil the pulli (its virama) is written out, so க் is a letter of its own and should animate on its own. The only joined forms are the ligatures க்ஷ and ஸ்ரீ, and Vits keeps exactly those two whole.
+</Callout>
+
+## Cutting it right is half the job
+
+Once you know where the letters are, the obvious next move is to draw each one by itself and animate the pieces. That breaks Hindi a second way.
+
+Devanagari letters change shape depending on their neighbours. Conjunct forms, half forms and where a vowel sign sits are all decided by the text shaper looking at the whole word. Draw स्ते without the rest of the line and the shaper may pick a different form. Draw every letter separately and the shirorekha, the line that runs along the top of the word, picks up tiny seams wherever two pieces meet.
+
+Vits avoids both problems by never drawing a letter alone:
+
+1. The whole text is laid out once by Android's own text stack (Minikin with HarfBuzz), so it shapes exactly as the system would.
+2. Each piece is drawn into a texture atlas with its whole line as shaping context, so स्ते gets the form it would have in the full word.
+3. During the animation every piece is one quad on the GPU that moves, turns, blurs or glows. The letter shapes themselves never get re-shaped mid-flight.
+
+When the animation settles, the pieces have to add back up to the plain text. An automated check in the Vits repo renders both and compares them pixel by pixel, and they match at 51 to 53 dB PSNR. That is well past the point where a difference can be seen, so there is no seam through the headline.
+
+## What this makes possible in Vits
+
+Getting the letter right is what lets the fun parts work in Hindi:
+
+- **72 text animations**, each with an In, a Loop and an Out, and each runnable by the whole text, a line, a word or a letter.
+- Letter-by-letter presets like a pen that writes the line out by hand, fire, smoke, gold shine and glass that bends the video behind it, with automatic motion blur on every moving letter.
+- **Word styles**, so one word in a Hindi sentence can get its own colour, font or highlighter.
+- **Lyric stack**, where the words of a song arrive one by one in short centred lines that you sync by tapping along to the music. It works in Hindi as well.
+
+Vits bundles fonts that cover Latin and Devanagari. The other Indian scripts use the phone's own Noto fonts, and they get the same conjunct-safe splitting. The app itself runs in eight languages: English, हिन्दी, বাংলা, मराठी, తెలుగు, தமிழ், ગુજરાતી and ಕನ್ನಡ.
+
+If you haven't met Vits yet, the [introduction post](/blog/vits-free-video-editor-android) covers the rest of the editor. The short version: it is free, it has no watermark and no sign-in, it works offline, and it is about 4 MB on Google Play.
+
+## Try it on your own name
+
+1. Open [Vits](https://play.google.com/store/apps/details?id=com.vits.app) and start a project with any clip.
+2. Add a text and type something with a conjunct in it. Your own name works well: क्षितिज, स्नेहा, श्रुति.
+3. Open its animations, pick an In animation and set it to play by letter.
+4. Scrub the playhead slowly. Every piece that moves should be a letter you could point at on the screen.
+
+If you find one that breaks, I want the exact word. Send it to iamvevaar@gmail.com along with the language.
+
+## Questions about Hindi text animation
+
+### Which app can animate Hindi text letter by letter without breaking it?
+
+Vits, a free video editor for Android, animates Hindi letter by letter with conjuncts like क्ष, स्त्र and त्र kept whole, across 72 text animations.
+
+### Why do conjuncts break in other editors?
+
+Most editors split text by Unicode characters or by older grapheme rules, which separate consonants joined by a virama. Unicode 15.1 fixed the rule in 2023, but the text libraries on most Android phones in use are older than that.
+
+### Does it work for Bengali, Marathi, Gujarati, Telugu, Kannada and Tamil?
+
+Yes. The splitter knows the virama of Devanagari (Hindi and Marathi), Bengali, Gurmukhi, Gujarati, Oriya, Telugu, Kannada and Malayalam, and handles Tamil's visible pulli separately.
+
+### Is it free?
+
+Yes. Every text animation in Vits is free, and exports never carry a watermark.
+
+## One more letter
+
+The fix is 80 lines. It matters is that the person watching a Reel in Hindi notices a broken क्ष in a fraction of a second, long before they notice the transition or the grade. Text in your own script should arrive looking the way you wrote it.

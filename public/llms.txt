@@ -46,6 +46,8 @@ companion for agents and LLMs.
 - [Blog index](https://www.vevaar.com/blog)
 - [Vits: a free Android video editor with no watermark](https://www.vevaar.com/blog/vits-free-video-editor-android):
   What Vits does, how it runs on 3-4 GB phones, and how its slow motion is measured.
+- [Why Hindi text breaks when animated letter by letter](https://www.vevaar.com/blog/hindi-text-animation-letter-by-letter):
+  The Unicode 15.1 conjunct rule most phones lack, and how Vits keeps क्ष whole.
 - [Putting Claude Code under a self-hosted SigNoz microscope](https://www.vevaar.com/blog/claude-code-signoz-dashboard):
   Claude Code emits OpenTelemetry; point it at a local SigNoz container for a
   private dashboard of every token, tool call, and quota tick.
