@@ -14,6 +14,7 @@ type Frontmatter = {
   title: string;
   description: string;
   date: string;
+  updated?: string;
   readingTime?: string;
   tags?: string[];
 };
@@ -86,7 +87,7 @@ export default async function BlogPost({
     headline: frontmatter.title,
     description: frontmatter.description,
     datePublished: frontmatter.date,
-    dateModified: frontmatter.date,
+    dateModified: frontmatter.updated ?? frontmatter.date,
     keywords: frontmatter.tags,
     inLanguage: "en",
     mainEntityOfPage: `${SITE.url}/blog/${slug}`,

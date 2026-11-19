@@ -7,6 +7,7 @@ export type BlogPostMeta = {
   title: string;
   description: string;
   date: string;
+  updated?: string;
   readingTime: string;
   tags: string[];
   cover?: string;
@@ -26,6 +27,7 @@ export function getAllPosts(): BlogPostMeta[] {
         title: data.title ?? "",
         description: data.description ?? "",
         date: data.date ?? "",
+        updated: data.updated,
         readingTime: data.readingTime ?? "",
         tags: (data.tags as string[]) ?? [],
         cover: data.cover,

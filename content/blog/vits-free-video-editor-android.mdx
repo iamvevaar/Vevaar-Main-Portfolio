@@ -1,8 +1,9 @@
 ---
 title: "Vits: A Free Android Video Editor With No Watermark, Made to Fit in 4 MB"
-description: "Vits is a full video editor for Android, made in India: 111 transitions, 123 effects, keyframes, green screen and letter-by-letter text in 8 Indian languages. It works offline, needs no sign-in, never watermarks your export, and runs on 3-4 GB RAM phones."
+description: "Vits is a full video editor for Android, made in India: 111 transitions, 123 effects, keyframes, green screen, camera tracking, a one-tap dance cam and letter-by-letter text in 8 Indian languages. It works offline, needs no sign-in, never watermarks your export, and runs on 3-4 GB RAM phones."
 date: "2026-11-07"
-readingTime: "8 min read"
+updated: "2026-11-20"
+readingTime: "10 min read"
 tags: ["Vits", "Video Editor", "Android", "Made in India", "Build in Public"]
 ---
 
@@ -14,7 +15,7 @@ This post is the one I wish I'd read the week I tried to edit a 30 second Reel o
 
 ## Vits in one paragraph
 
-**Vits is a free video editor for Android, made in India.** It has a multi-track timeline, 111 transitions, 123 video effects, 68 sound effects, 72 text animations, keyframes on everything, green screen, speed curves and optical-flow slow motion. It edits, previews and exports entirely on the phone, so it works offline and never uploads your footage. There is no sign-in, no ads in the editor, and no watermark on any export at any setting. The app speaks English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati and Kannada, and it is built to run on the 3-4 GB RAM phones most people in India actually own.
+**Vits is a free video editor for Android, made in India.** It has a multi-track timeline, 111 transitions, 123 video effects, 68 sound effects, 72 text animations, keyframes on everything, green screen, camera tracking, speed curves and optical-flow slow motion. It edits, previews and exports entirely on the phone, so it works offline and never uploads your footage. There is no sign-in, no ads in the editor, and no watermark on any export at any setting. The app speaks English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Kannada and Spanish, and it is built to run on the 3-4 GB RAM phones most people in India actually own.
 
 <StatCounter value="111" label="transitions" />
 <StatCounter value="123" label="video effects" />
@@ -65,6 +66,28 @@ Vits is a timeline editor, not a template machine. If you have used a desktop ed
 
 **Export.** 720p or 1080p, 24 or 30 fps, HEVC for files about a third smaller, a WhatsApp Status preset that lands 720p under 16 MB, or audio only as M4A. Export keeps running in the background with a notification, and preview and export use the same renderer, so what you see is what you get.
 
+## New since launch
+
+This post went up with version 0.81. Two weeks later, Vits is at 0.94, and these are the additions worth knowing about.
+
+**Camera tracking.** Draw a box around anything, or tap a face or a person, and the clip moves, zooms and turns so that subject stays put in the frame. It tracks forwards and backwards from where you picked, and it would rather lose the subject than follow the wrong thing. If it does lose it, "Continue from here" picks it up again. It works on overlays too, and it can either zoom in to hide the edges or put a blurred copy of the clip behind them.
+
+**Dance cam.** One tap on the clip bar and a 2× view follows the dancer's head through the whole clip: steady up and down, following loosely left and right, never leaving the frame. There is nothing to pick and nothing to set.
+
+<Callout variant="info">
+**One honest note on offline.** Editing, preview and export are still fully offline. Picking a face or a person for camera tracking uses a small detection model that Vits downloads once, the first time you need it. A custom box and the dance cam need nothing extra.
+</Callout>
+
+**Music on the beat.** Pick a song and Vits shows the whole thing as a waveform, so you choose which part to use: the video's length, 15, 30 or 60 seconds, or the whole song. It finds the beats and drops beat markers on the timeline. If it gets one wrong, tap along to the song, drag the markers or halve and double the tempo.
+
+**A magnetic timeline.** Texts, overlays, effects, sounds and adjustment layers stick to cuts, the playhead and each other's edges as you drag or trim them, with a small haptic tick on each catch.
+
+**Three lyric styles.** The lyric stack now has two 3D siblings. Corner 3D lands the words on the two walls of a building's corner while a camera follows each word. Sweep 3D sets each block on a tilted plane and fades the letters in as they are sung.
+
+**Brands for client work.** File projects under a brand, and give each brand a kit: logos, banners, an intro, an outro, music, sounds, fonts and up to 12 colours. In the editor a single tap places the logo where it usually goes, and the brand's colours and fonts come first in every text. A whole kit can be shared as one `.vits` file, so a second editor gets the same logo, fonts and colours.
+
+**Smaller things you will feel.** Undo and redo now say what they did ("Undo: Text moved"). Tap the time to jump anywhere with scroll wheels. The preview goes full screen. Transitions play smoothly in the preview. A song or overlay can now run past the last clip, and the video lasts until whatever ends last. And Spanish joined as the first language from outside India.
+
 ## Built for the phone you already have
 
 Most editors are designed on flagship phones and tested on them too. Vits went the other way.
@@ -88,7 +111,7 @@ Two text features grew out of that work:
 - **Word styles.** Give one word its own colour, font, size, outline or highlighter: "Hi, my name is **Rupali**".
 - **Lyric stack.** Type the lyrics and they arrive word by word in short centred lines. Play the song and tap as each word lands to sync it. It works in Hindi too.
 
-The app itself switches between all eight languages from inside the settings, in their own scripts: English, हिन्दी, বাংলা, मराठी, తెలుగు, தமிழ், ગુજરાતી, ಕನ್ನಡ.
+The app itself switches between nine languages from inside the settings, eight of them Indian and shown in their own scripts: English, हिन्दी, বাংলা, मराठी, తెలుగు, தமிழ், ગુજરાતી, ಕನ್ನಡ, plus Spanish.
 
 ## Hand the whole project to another editor
 
@@ -106,7 +129,7 @@ Slow motion was where I spent the most nights. Slowing a 30 fps clip to 0.5× me
 
 That same habit runs through the whole app. Every engine change is measured: 25+ automated checks against FFmpeg cover audio sync, text, crop, reverse, HDR, blend modes, chroma key accuracy, effects and more. Nothing ships on vibes.
 
-From the first commit on 3 October 2026 to version 0.81 today is a little over five weeks and 209 commits. It is one person's app, and it is updated through Google Play in-app updates, so fixes reach you without a hunt.
+From the first commit on 3 October 2026 to version 0.81 on launch day was a little over five weeks and 209 commits. Two weeks later it was 0.94 and 273 commits. It is one person's app, and it is updated through Google Play in-app updates, so fixes reach you without a hunt.
 
 ## Questions people ask about Vits
 
@@ -128,7 +151,7 @@ It is built for them. Vits measures the phone on first launch and adapts, so it 
 
 ### Which Indian languages does Vits support?
 
-English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati and Kannada, switchable inside the app. Letter-by-letter text animation keeps Indian conjuncts whole.
+English, Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati and Kannada, plus Spanish, all switchable inside the app. Letter-by-letter text animation keeps Indian conjuncts whole.
 
 ### Is Vits good for Instagram Reels and YouTube Shorts?
 
