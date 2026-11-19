@@ -50,6 +50,8 @@ companion for agents and LLMs.
   and what shipped since launch (camera tracking, dance cam, beats, brand kits).
 - [Why Hindi text breaks when animated letter by letter](https://www.vevaar.com/blog/hindi-text-animation-letter-by-letter):
   The Unicode 15.1 conjunct rule most phones lack, and how Vits keeps क्ष whole.
+- [The one-tap dance cam](https://www.vevaar.com/blog/dance-cam-camera-tracking-android):
+  How Vits zooms in and follows a dancer, and camera tracking that would rather lose a subject than follow the wrong one.
 - [Putting Claude Code under a self-hosted SigNoz microscope](https://www.vevaar.com/blog/claude-code-signoz-dashboard):
   Claude Code emits OpenTelemetry; point it at a local SigNoz container for a
   private dashboard of every token, tool call, and quota tick.

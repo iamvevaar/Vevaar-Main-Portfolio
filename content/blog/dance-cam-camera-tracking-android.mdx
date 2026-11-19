@@ -1,0 +1,123 @@
+---
+title: "The One-Tap Dance Cam: How Vits Keeps a Dancer in Frame on an Android Phone"
+description: "Vits, a free video editor for Android, adds camera tracking and a one-tap dance cam that zooms in and follows a dancer's head through the whole clip. Here is how it works on the phone, without uploading your video, and why its tracker would rather lose the subject than follow the wrong one."
+date: "2026-11-20"
+readingTime: "8 min read"
+tags: ["Vits", "Camera Tracking", "Dance Video", "Android", "Video Editing"]
+---
+
+You prop the phone on a shelf, step back, and dance the whole routine in one take. It's a good take. Then you watch it back and you are a small figure in the middle of a large room, drifting left and right while the cupboard behind you stays perfectly centred.
+
+What the Reel needs is the shot a camera operator would have given you: closer in, your face held steady, the frame drifting along with you. Nobody was holding the camera. So the editor has to.
+
+This post is the one I wish I'd read before building that into [Vits](https://vits.vevaar.com), my free video editor for Android. It covers the two tools that came out of it, the dance cam and camera tracking, and the one rule both are built around.
+
+## Two tools, one job
+
+Both tools do the same thing underneath. They find where a subject is in every frame, then move, zoom and turn the picture so the subject stays in one place. The difference is how much you decide.
+
+- **Dance cam** is one tap. It finds the dancer, zooms to 2× and follows their head. There is nothing to pick and nothing to set.
+- **Camera tracking** follows anything you can draw a box around, or a face or person you tap, and gives you the settings.
+
+Here is what the dance cam does to a shot from across the room:
+
+<DanceCamDemo />
+
+The dashed window on the left is the 2× view. It follows the head, so in the exported video on the right the head barely moves while the room slides past behind it.
+
+## The dance cam, one tap
+
+Select a clip and the dance cam sits at the end of the clip bar. Tap it, the bar says "Finding the dancer…" and then "Following the dancer…", and you're done.
+
+What it makes is deliberately fixed:
+
+- a **2× view** of the clip,
+- the head **pinned up and down**, so jumps and bounces don't shake the frame,
+- the head **followed loosely left and right**, so the camera drifts with the dancer instead of snapping,
+- **never turned or resized**, and never pulled past the edge of the original frame.
+
+The smoothing is set so it doesn't lag behind the dancer, which is the usual giveaway of a computer-driven camera. Undo takes the whole thing off in one step.
+
+### Finding the right head
+
+The first problem is deciding who the dancer is. Vits scans four frames across the clip and picks the biggest head it sees. That sounds easy until someone wears a patterned top. Face detectors are happy to find a "face" in a print, so Vits throws out any face that is wider than half the person it belongs to, or that sits below the top 30% of their body. A face on a shirt fails both tests.
+
+### Following it frame by frame
+
+The second problem is staying on that head. The general box tracker described below was the obvious choice, but on a face its box slowly wanders as the head turns. For a dance cam that wobble is the whole picture, so the dance cam uses a face detector on every single frame instead.
+
+To keep that fast on a budget phone, it doesn't search the whole frame each time. It cuts out a small square around where the head was last seen, about three face-widths across and 192 pixels on the GPU, and looks only there. If it misses five frames in a row, it goes back to searching the whole frame.
+
+The face model ships inside the app and runs on the phone through Google Play services' on-device ML runtime. Your video never leaves the phone.
+
+## Camera tracking, for everything else
+
+The dance cam only does one thing. Camera tracking is the general version, and it sits next to it at the end of the clip bar.
+
+1. Select a clip and open **Camera tracking**. Vits shows the frame whole while it looks for faces and people.
+2. **Tap a face or a person**, or drag the **Tracking box** onto whatever the camera should follow. Pick a frame where the subject shows clearly.
+3. Tap **Track**. A progress count runs while it follows the subject through the clip.
+4. Shape the camera with **Keep its size**, **Keep its angle** and **Smoothness**, and choose how the **Edges** are handled: **Zoom in** just enough to hide them, or **Blur** to fill them with a soft copy of the clip.
+
+The settings change instantly because the subject is tracked once and saved. Moving a slider only re-plans the camera from that saved path, so nothing has to be tracked again.
+
+It also works on video overlays, so a picture-in-picture clip can keep its subject centred inside its own frame. Tracking and stabilization both move the picture, so a clip uses one or the other, and Vits asks before swapping.
+
+<Callout variant="info">
+**On offline.** The custom box and the dance cam need nothing extra. Finding people (as opposed to faces) uses a small person-detection model that Vits downloads once, the first time camera tracking looks for them. Editing and export never need the internet.
+</Callout>
+
+## Lost beats wrong
+
+Every tracker eventually loses its subject. The dancer spins, someone walks in front, the camera whips away. The question is what happens next, and most of the design came from one answer: **a camera that follows the wrong thing is worse than a camera that stops following.**
+
+If the tracker picks the wrong shoulder in the crowd, your Reel is now centred on a stranger for three seconds and the shot is ruined. If it stops and eases back, you lose a little zoom. So the tracker is built to be suspicious:
+
+- It tracks **both ways** from the frame you picked, so the subject is known at its clearest moment and followed out from there.
+- When a match fails, it **coasts** for up to 12 frames on the motion it had, then only takes a box again if it looks at least 80% like the subject.
+- That comparison is against the look you **picked**, not only the last frame's. Comparing only with the recent past lets the box drift onto something else a little at a time.
+- A **scene cut** ends the track outright.
+- The box can't grow or shrink faster than 4% a frame, and never past 0.4× to 2.5× the size you picked, so it can't collapse onto a plain wall.
+
+When the subject is lost, the camera eases back over 0.3 seconds instead of jumping, and the panel tells you where (**"Lost the subject at"** and the time), with **Go there** and **Continue from here**. Draw the box again where the subject shows again, and the camera carries on from there. You can do that up to four times in a clip. Zoom is capped at 2.5×. Past that, the edges show whatever lies beneath the clip.
+
+On real footage I tested by hand-marking heads, a dancer and a man walking through a short film, the tracker held on for a while, lost the subject, and **never landed on the wrong thing**. That is exactly the trade I wanted, and why the face and person detection exists: it picks the subject back up after a loss, where the box tracker alone would give up.
+
+## How it's checked
+
+Like the rest of Vits, the tracker has a written reference before it has an app version. A small Python tracker in the repo is the spec, and the Kotlin tracker in the app has to match it frame for frame on the same footage. It currently passes all 38 checks. The dance cam has its own reference and check, and the zoomed picture is resampled with a sharper filter than the default so a 2× clip doesn't go mushy.
+
+Export waits for tracking to finish, so a tracked clip can never be exported with half a camera path.
+
+## Try it on your next dance video
+
+1. Film the whole routine on a tripod or a shelf, with your head clearly in frame and some room around you.
+2. Open [Vits](https://play.google.com/store/apps/details?id=com.vits.app), add the clip, select it, and tap **Dance cam**.
+3. Play it back. If it couldn't find a face, try a clip where you face the camera at the start.
+4. For a pet, a car or a product, use **Camera tracking** with a box instead.
+
+Set a 9:16 canvas, drop your song on the beat and export in 1080p with no watermark. If you are new to Vits, the [introduction post](/blog/vits-free-video-editor-android) covers the rest of the editor.
+
+## Questions about the dance cam
+
+### Is there an app that automatically zooms in and follows a dancer?
+
+Yes. The dance cam in Vits, a free video editor for Android, zooms a clip to 2× and follows the dancer's head through the whole clip with one tap and no settings.
+
+### Can I track an object in a video on Android for free?
+
+Yes. Camera tracking in Vits follows anything you draw a box around, or a face or person you tap, and moves the picture to keep it in place. It is free and adds no watermark.
+
+### Does it upload my video?
+
+No. Tracking runs on the phone. The only download is a small person-detection model, once, the first time camera tracking looks for people.
+
+### What happens if the dancer leaves the frame?
+
+The camera eases back to the full shot instead of following something else. With camera tracking you can pick the subject again with Continue from here.
+
+## Nobody held the camera
+
+Good dance videos look like someone with steady hands was standing right there. Most people filming themselves don't have that person. The dance cam is my attempt to be them, one tap at a time, on whatever phone you already own.
+
+Found a clip where it follows the wrong person? I want that clip. Write to iamvevaar@gmail.com.

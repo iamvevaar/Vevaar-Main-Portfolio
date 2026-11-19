@@ -13,6 +13,7 @@ import { AutomationShowdown } from "./infographics/AutomationShowdown";
 import { VitsNoList } from "./infographics/VitsNoList";
 import { VitsSlowMoBench } from "./infographics/VitsSlowMoBench";
 import { GraphemeSplit } from "./infographics/GraphemeSplit";
+import { DanceCamDemo } from "./infographics/DanceCamDemo";
 import { CodeBlock } from "./CodeBlock";
 
 export const mdxComponents = {
@@ -93,4 +94,5 @@ export const mdxComponents = {
   VitsNoList,
   VitsSlowMoBench,
   GraphemeSplit,
+  DanceCamDemo,
 };
