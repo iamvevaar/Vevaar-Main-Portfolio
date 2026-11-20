@@ -1,0 +1,107 @@
+---
+title: "Edit to the Beat on Your Phone: How Vits Finds the Beats in a Song Without AI"
+description: "Vits, a free video editor for Android, finds the beats in your song and puts beat markers on the timeline, so cuts, texts and effects land on the beat. Here is how the beat finder works with plain signal processing, on the phone and offline, and how to fix it by tapping along when a song fools it."
+date: "2026-11-20"
+readingTime: "8 min read"
+tags: ["Vits", "Beat Sync", "Music", "Android", "Video Editing"]
+---
+
+An edit that lands on the beat feels right before anyone can say why. The cut hits with the kick drum, the title slams in on the snare, and the whole thing looks planned.
+
+Doing that by ear on a phone is slow. You play, pause, nudge, play again, squint at a waveform trying to tell a kick from a vocal, and an hour later the third cut is still a frame late.
+
+This post is the one I wish I'd read before writing the beat finder in [Vits](https://vits.vevaar.com), my free video editor for Android. It covers what the feature does in the app, how it finds beats with nothing but arithmetic, and what to do when a song fools it.
+
+## Choose the part of the song first
+
+When you pick a song in Vits, it doesn't get dropped onto the timeline straight away. It opens on a sheet that shows the whole song as a waveform, with a window over the part you'll use.
+
+- **Video** sizes the window to your video's length.
+- **15 s**, **30 s** and **60 s** match the usual Reel and Short lengths.
+- **Whole song** takes all of it.
+- **Reset** puts a video-length window over the loudest stretch of the song.
+
+Drag the window to the part you want, press **Play** to hear it, then **Add music**. Plenty of songs bury their best 30 seconds somewhere past the first minute, and this is where you go and get them.
+
+## Beat markers
+
+On the same sheet is a switch: **Add beat markers**. While the sheet is open, Vits reads the song and shows what it found, for example "128 BPM · found by Vits". Leave it on, and the song arrives on the timeline with a dot on every beat.
+
+<BeatMarkersDemo />
+
+Amber dots are the beats Vits found. Pink ones are beats you placed or moved yourself, so you can always tell the two apart.
+
+The dots do real work once they're there:
+
+- **Everything snaps to them.** The timeline is magnetic. Drag a text, overlay, effect or sound, or trim its edge, and it sticks to a beat marker when it gets close, with a small haptic tick on each catch. Putting a title on the drop becomes a drag and a tick.
+- **Beat effects follow the music.** Effects in the beat group pulse in time with the song's beats.
+
+## How it finds the beats
+
+There is no AI in the beat finder and no server. It is a classic piece of audio signal processing, and it runs on the phone.
+
+**Step 1: where does something start?** Vits splits the sound into 24 frequency bands, spaced the way hearing is, and measures 100 times a second how sharply the energy in each band jumps. A kick drum, a snare or a strummed chord all show up as a sudden jump. Add the bands together and you get an "onset envelope", a line that spikes whenever a new sound starts.
+
+**Step 2: how fast is the song?** Take that envelope, slide a copy of it along itself, and see where the spikes line up best. If the beat comes every half second, the copy lines up strongly at a half-second shift. That shift is the tempo. The search leans gently towards 120 BPM, a very common tempo in pop, and also checks twice the shift, which helps it choose between a tempo and its double.
+
+**Step 3: where exactly is each beat?** Knowing the tempo isn't enough, because real drummers and real songs drift. The last step uses dynamic programming to choose a chain of beats that lands on strong onsets while keeping a steady spacing. It's the method from Dan Ellis's well-known 2007 paper on beat tracking, and it's still a very good one.
+
+The song is read once. The waveform and the onsets are saved, so reopening the sheet or editing the beats later costs nothing. On my slowest test setup, a 4.5-minute song takes about 10 seconds to read.
+
+### Two bugs worth telling
+
+The first one was a shortcut that went wrong. Audio work often halves the sample rate first to save time. Doing that here made one song in my test set, a 130 BPM track, read as 98. Vits now reads the song at its own rate.
+
+The second was smaller and nastier. Measuring 100 times a second means stepping through the audio in fixed hops, and at a sample rate of 22,050 Hz a hop rounded to a whole number of samples drifts by 0.2%. That sounds like nothing. Over a 4-minute song it's half a second, which means beats near the end land visibly off the music. Now each step is placed at its exact time instead of adding up rounded hops.
+
+My test set is six songs from my own library, from 88 to 130 BPM.
+
+## When it gets the beat wrong
+
+No beat finder is right about every song. A slow ballad, a song with a long intro, or a track with no drums can all fool it. So every song on the timeline (sound effects aside) has a **Beats** tool, also reachable from **Edit beats** on the music sheet, with three tabs.
+
+**Tap along.** Press play and tap the big **TAP** button on every beat. With **Pull to the nearest hit** on, each tap moves to the real drum hit within 70 ms of your finger, so your timing only has to be close. After four steady taps Vits offers **Fill the rest** at your tempo, and you're done.
+
+**Edit.** Tap the waveform to add a beat, tap a beat to remove it, drag one to move it, or use **+ Beat at playhead**. **Reset to found** goes back to what Vits found.
+
+**Tempo.** Keep **Every beat**, **Every 2nd** or only **Every bar**, which is useful when every beat is too many cuts. If the tempo is off by half or double, **½× slower** and **2× faster** fix it in one tap.
+
+<Callout variant="tip">
+**Half or double is the most common mistake** any beat finder makes, because a song at 140 BPM also has a perfectly steady pulse at 70. If the markers feel twice as busy as the music, tap 2× in the Tempo tab and keep going.
+</Callout>
+
+If a song has no steady beat at all, the sheet says so ("No steady beat found · tap your own") instead of guessing.
+
+## Try it on your next Reel
+
+1. Open [Vits](https://play.google.com/store/apps/details?id=com.vits.app), set a 9:16 canvas and add your clips.
+2. Tap **Music**, pick a song, choose **30 s** and drag the window to the best part.
+3. Leave **Add beat markers** on and tap **Add music**.
+4. Drag your texts, overlays and effects into place. Each one ticks onto a beat as you drag, and so does its edge when you trim it.
+5. Export in 1080p. No watermark.
+
+For the words of the song, the lyric stack syncs lyrics the same way, by tapping along. The [introduction post](/blog/vits-free-video-editor-android) covers the rest of the editor.
+
+## Questions about beat sync
+
+### Can I sync a video to the beat of a song on Android for free?
+
+Yes. Vits, a free video editor for Android, finds the beats in a song, marks them on the timeline, and makes texts, overlays, effects and sounds snap to them. It adds no watermark.
+
+### Does Vits use AI to find the beats?
+
+No. It uses signal processing: an onset envelope across 24 frequency bands, a tempo estimate from autocorrelation, and dynamic programming to place each beat.
+
+### Does beat detection work offline?
+
+Yes. The song is analysed on your phone and never uploaded.
+
+### What if the beat markers are wrong?
+
+Open the Beats tool. Tap along to the song and let Vits fill in the rest, drag individual beats, or halve or double the tempo in one tap.
+
+## Count it in
+
+Editors who cut on the beat aren't doing anything mysterious. They count, and they put things where the count lands. The beat finder does the counting for you. Where it lands each cut is still your decision.
+
+Found a song it reads wrong? Send me the song name and the tempo you'd expect at iamvevaar@gmail.com. Those songs go straight into the test set.
